@@ -1,0 +1,17 @@
+services:
+
+  database:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_DB=api_commercial_info
+      - POSTGRES_USER=api_commercial_info
+      - POSTGRES_PASSWORD=api_commercial_info
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+
+volumes:
+  db_data:
