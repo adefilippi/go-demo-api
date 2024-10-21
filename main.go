@@ -35,6 +35,6 @@ func goDotEnvVariable(key string) string {
 
 func main() {
 	repository.Setup()
-	router := router.SetupRouter()
-	router.Run("localhost:8080")
+	r := router.SetupRouter()
+	r.Run("localhost:8080")
 }

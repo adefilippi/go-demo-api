@@ -1,7 +1,6 @@
 package security
 
 import (
-	"encoding/json"
 	"github.com/MicahParks/keyfunc/v3"
 	"github.com/golang-jwt/jwt/v5"
 	"log"
@@ -55,15 +54,6 @@ func CheckBearer(bearer string) (bool, string) {
 	}
 
 	jwks, err := keyfunc.NewDefault([]string{jwksURL})
-	if err != nil {
-		log.Fatalf("Failed to create JWK Set from resource at the given URL.\nError: %s", err)
-		return false, "Failed to create JWK Set from resource at the given URL."
-	}
-
-	jwksJSON := json.RawMessage(`{"keys":[{"e":"AQAB","kid":"0","kty":"RSA","n":"xbMECG1-JyQ5iY-qG24EX3AbU1wNE2CDqU9YhuKZ7CTYyM8sjorFDv5DvfEL6f_8Eegt7fUXcBIzsLGp7VTumovGrTWcwgS5DD1tj86M8R1-Ob6qB4bLnifR5GkoYyic1snr9e2EDdtN2yvw6jIg0S_B95elhtDJeJW6J2iNrTePbq-d59ezpQJ0MPFTYsaeYXCrITfhH1AjuRnLqgvrZ1sjackj7SS6Nw9x8qMELMEY1F4BqsMiAwASFhzLnYW-toLrcrTv8UNiFY8I-5lIoS_FQf5o-J6lPoZTxWKdejvk-f9mZ0DBG6kLxlcwkFKJbrEg9zNMC-eauwDJvMjNgw"}]}`)
-
-	// Create the keyfunc.Keyfunc.
-	jwks, err = keyfunc.NewJWKSetJSON(jwksJSON)
 	if err != nil {
 		log.Fatalf("Failed to create JWK Set from resource at the given URL.\nError: %s", err)
 		return false, "Failed to create JWK Set from resource at the given URL."

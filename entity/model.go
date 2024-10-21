@@ -5,7 +5,7 @@ import (
 )
 
 type Model struct {
-	ID              *uuid.UUID    `gorm:"type:uuid;default:uuid_generate_v6();primaryKey" json:"id"`
+	ID              *uuid.UUID    `gorm:"type:uuid;primaryKey" json:"id"`
 	Name            string        `json:"name"`
 	Title           *string       `json:"title"`
 	SubTitle        *string       `json:"sub_title"`

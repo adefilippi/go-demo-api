@@ -187,3 +187,7 @@ func HandleError(err error) (int, ApiError) {
 
 	return code, response
 }
+
+func Home(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, "Ok")
+}

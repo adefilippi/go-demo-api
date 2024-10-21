@@ -6,7 +6,7 @@ import (
 )
 
 type MediaObject struct {
-	ID           *uuid.UUID     `gorm:"type:uuid;default:uuid_generate_v6();primaryKey" json:"id"` // Define custom UUID ID
+	ID           *uuid.UUID     `gorm:"type:uuid;primaryKey" json:"id"` // Define custom UUID ID
 	Title        *string        `json:"title"`
 	Name         *string        `json:"name"`
 	OriginalName *string        `json:"original_name"`
