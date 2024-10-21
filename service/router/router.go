@@ -1,4 +1,4 @@
-package service
+package router
 
 import (
 	"net/http"
@@ -7,25 +7,21 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"example/web-service-gin/api"
+	docs "example/web-service-gin/docs"
+	"example/web-service-gin/middleware"
+	"example/web-service-gin/service/utils"
 	"example/web-service-gin/service/env"
 )
 
 var allowedOrigins = strings.Split(env.GetEnvVariable("CORS_ALLOW_ORIGIN"), ",")
 
-func contains(s []string, e string) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
-}
-
-func SetDefaultHeaders() gin.HandlerFunc {
+func DefaultHeadersMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if !contains(allowedOrigins, c.Request.Host) {
+		if !utils.Contains(allowedOrigins, c.Request.Host) {
 			c.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
@@ -56,13 +52,21 @@ func SetupRouter() *gin.Engine {
 
 	router := gin.Default()
 	router.HandleMethodNotAllowed = true
-	router.Use(SetDefaultHeaders())
+	router.SetTrustedProxies([]string{"127.0.0.0/8", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"})
+	router.Use(DefaultHeadersMiddleware())
 
 	router.GET("/models", api.GetModels)
 	router.GET("/models/:id", api.GetModelById)
-	router.POST("/models", api.CreateModel)
-	router.PATCH("/models/:id", api.UpdateModel)
-	router.DELETE("/models/:id", api.DeleteModel)
+	router.POST("/models", middleware.SecurityMiddleware(), api.CreateModel)
+	router.PATCH("/models/:id", middleware.SecurityMiddleware(), api.UpdateModel)
+	router.DELETE("/models/:id", middleware.SecurityMiddleware(), api.DeleteModel)
+
+	router.GET("/models/:id/image/:image-id", api.GetMdelImage)
+	router.POST("/models/:id/image", middleware.SecurityMiddleware(), api.CreateModelImage)
+	router.DELETE("/models/:id/image/:image-id", middleware.SecurityMiddleware(), api.DeleteModelImage)
+
+	docs.SwaggerInfo.BasePath = "/"
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	router.Use(cors.New(cors.Config{
 		AllowMethods:     []string{"PUT", "PATCH"},

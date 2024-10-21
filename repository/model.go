@@ -6,18 +6,18 @@ import (
 	"example/web-service-gin/entity"
 )
 
-func GetAllModels() []entity.Model {
-	var models []entity.Model
-	//db.Model(&Model{}).Limit(10).Find(&Model{})
-	db.Find(&models)
-
-	return models
+func GetAllModels() ([]entity.Model, error) {
+	var users []entity.Model
+	err := db.Model(&entity.Model{}).Preload("Images").Find(&users).Error // Use the correct field name for association
+	return users, err
 }
 
-func GetModelById(id uuid.UUID) entity.Model {
+func GetModelById(id uuid.UUID) (entity.Model, error) {
 	var model entity.Model
-	db.First(&model, id)
-	return model
+	if result := db.First(&model, id); result.Error != nil {
+		return entity.Model{}, result.Error
+	}
+	return model, nil
 }
 
 func CreateModel(model entity.Model) (entity.Model, error) {
