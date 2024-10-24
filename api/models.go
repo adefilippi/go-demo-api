@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"example/web-service-gin/repository"
+	"example/web-service-gin/service/utils"
 )
 
 //	@Summary		Show all models
@@ -152,9 +153,9 @@ func CreateModelImage(c *gin.Context) {
 		return
 	}
 
-	filepath, filename := HandleFile(c)
-	mimetype, _ := GetFileMimeType(filepath)
-	size, _ := GetFileSize(filepath)
+	filepath, filename := utils.HandleFile(c)
+	mimetype, _ := utils.GetFileMimeType(filepath)
+	size, _ := utils.GetFileSize(filepath)
 
 	mo := entity.MediaObject{
 		ModelID:      *model.ID,
@@ -163,8 +164,8 @@ func CreateModelImage(c *gin.Context) {
 		MimeType:     &mimetype,
 		Size:         &size,
 	}
-	if IsImageMimeType(mimetype) {
-		width, height, err := GetImageDimensions(filepath)
+	if utils.IsImageMimeType(mimetype) {
+		width, height, err := utils.GetImageDimensions(filepath)
 		dimensions := [2]int{width, height}
 		if err == nil {
 			dimensionsJSON, err := json.Marshal(dimensions)

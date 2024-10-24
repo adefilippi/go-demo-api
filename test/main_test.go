@@ -69,6 +69,15 @@ func (s *WebServiceGinSuite) TestModelsGetHandler() {
 		var models []entity.Model
 		json.Unmarshal(recorder.Body.Bytes(), &models)
 		assert.Equal(t, 9, len(models))
+	})
+}
 
+func (s *WebServiceGinSuite) TestModelsDeleteHandler() {
+	recorder := httptest.NewRecorder()
+	req := httptest.NewRequest("DELETE", "/models/1ec5846b-147d-6496-9ee5-0d943c703025", nil)
+	s.router.ServeHTTP(recorder, req)
+
+	s.T().Run("Delete a model", func(t *testing.T) {
+		assert.Equal(t, http.StatusNoContent, recorder.Code)
 	})
 }
