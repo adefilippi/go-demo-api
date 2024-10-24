@@ -1,0 +1,285 @@
+basePath: /
+definitions:
+  api.ApiError:
+    properties:
+      detail:
+        type: string
+      message:
+        type: string
+    type: object
+  entity.MediaObject:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      dimensions:
+        items:
+          type: integer
+        type: array
+      id:
+        type: string
+      mime_type:
+        type: string
+      model_id:
+        description: Foreign key for Model
+        type: string
+      name:
+        type: string
+      original_name:
+        type: string
+      size:
+        type: integer
+      tag:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  entity.Model:
+    properties:
+      alt_image:
+        type: string
+      body_type:
+        type: string
+      cargo_volume:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      displayable:
+        type: boolean
+      emission_co2:
+        type: string
+      encrypt:
+        type: string
+      engine_type:
+        type: string
+      fuel_consumption:
+        type: string
+      fuel_type:
+        type: string
+      hybrid_system:
+        type: string
+      id:
+        type: string
+      images:
+        description: Correct association
+        items:
+          $ref: '#/definitions/entity.MediaObject'
+        type: array
+      is_new:
+        type: boolean
+      name:
+        type: string
+      position:
+        type: integer
+      price:
+        type: number
+      random:
+        type: string
+      seat_capacity:
+        type: integer
+      settings_link:
+        type: string
+      slug:
+        type: string
+      sub_title:
+        type: string
+      title:
+        type: string
+      updatedAt:
+        type: string
+      vehicle_engine:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample API .
+  termsOfService: http://swagger.io/terms/
+  title: Commercial Info API
+  version: "1.0"
+paths:
+  /models:
+    get:
+      consumes:
+      - application/json
+      description: get all models
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Model'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Show all models
+      tags:
+      - Model
+    post:
+      consumes:
+      - application/json
+      description: Add by json model
+      parameters:
+      - description: Add account
+        in: body
+        name: model
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Model'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Model'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Add a model
+      tags:
+      - Model
+  /models/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete by model ID
+      parameters:
+      - description: Model ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/entity.Model'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Delete a model
+      tags:
+      - Model
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Model ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Model'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Show an account
+      tags:
+      - Model
+    patch:
+      consumes:
+      - application/json
+      description: Update by json Model
+      parameters:
+      - description: Model ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update model
+        in: body
+        name: model
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Model'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Model'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Update a Model
+      tags:
+      - Model
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

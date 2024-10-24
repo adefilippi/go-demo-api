@@ -1,0 +1,225 @@
+- alt_image: Swift Sport Hybrid
+  body_type: Citadine Sportive
+  cargo_volume: 265 - 947
+  created_at: 2022-01-10T13:18:46Z
+  description: Vivez les sensations fortes de la passion automobile avec la nouvelle Suzuki Swift Sport Hybrid. La version sportive de la Swift Hybrid est dotée des dernières technologies de Suzuki. Elle assure ainsi à son conducteur un confort de conduite et une sécurité.
+  displayable: false
+  emission_co2: "125"
+  encrypt: EdX7Cqkml62f8SA9MOPvRc_TKEx6HtjL806uCqo_UcDdKCM
+  engine_type: 1.4 Boosterjet Hybrid
+  fuel_consumption: 5,6
+  fuel_type: Essence
+  hybrid_system: Hybride SHVS
+  id: 1ec5846b-0068-621c-82a9-0d943c703025
+  is_new: false
+  name: Swift Sport Hybrid
+  position: 7
+  price: "22850.00"
+  random: 40002E89FCA39904
+  seat_capacity: 4
+  settings_link: https://configurateur.suzuki.fr/modele/Swift_Sport
+  slug: swift-sport
+  sub_title: La sportive qui maîtrise sa consommation de carburant
+  title: SUZUKI SWIFT SPORT HYBRID
+  updated_at: 2024-09-19T13:35:08Z
+  vehicle_engine: Moteur thermique et batterie éléctrique 48V
+- alt_image: Swace Hybrid
+  body_type: Break Spacieux
+  cargo_volume: 596 - 1606
+  created_at: 2022-01-10T13:18:46Z
+  description: Dotée d'une motorisation hybride sans branchements dite «hybrid» d'une excellence fiabilité, le nouveau break Suzuki Swace vient compléter une gamme d'hybridation très fournie. Vous aurez une grande autonomie de conduite grâce aux différents modes de conduite existants.
+  displayable: true
+  emission_co2: 102 - 115
+  encrypt: EdX7CqkmljEt8SA9MOPvRc-iLkhyat7C_0yue602WMDYKGk
+  engine_type: 1.8 Hybrid
+  fuel_consumption: 4,5 - 5,1
+  fuel_type: Essence
+  hybrid_system: Hybride Auto-Rechargeable
+  id: 1ec5846b-147d-6496-9ee5-0d943c703025
+  is_new: false
+  name: Swace Hybrid
+  position: 5
+  price: "30750.00"
+  random: E648FC15DC040001
+  seat_capacity: 5
+  settings_link: https://configurateur.suzuki.fr/modele/SWACE
+  slug: swace
+  sub_title: Le break élégant Hybrid
+  title: SUZUKI SWACE, LE BREAK FULL HYBRID
+  updated_at: 2024-09-24T07:21:32Z
+  vehicle_engine: Moteur thermique et Moteur électrique
+- alt_image: Jimny
+  body_type: SUV 4x4
+  cargo_volume: "863"
+  created_at: 2022-01-10T13:18:46Z
+  description: Le Suzuki Jimny fait son grand retour dans une version utilitaire 2 places, conçu comme « outil au service des professionnels », il est resté fidèlement attaché à l’authenticité intrinsèque des Jimny.
+  displayable: false
+  emission_co2: 173 -174
+  encrypt: EdX7Cqkml63x8SA9MOPvRc_WKEx6HKXA-juuCaEyXsTYK6k
+  engine_type: 1.5 VVT AllGrip PRO
+  fuel_consumption: 7,7
+  fuel_type: Essence
+  hybrid_system: null
+  id: 1ec5846b-0239-6b18-9448-0d943c703025
+  is_new: false
+  name: Jimny
+  position: 8
+  price: "23390.00"
+  random: 100008303CB84641
+  seat_capacity: 2
+  settings_link: '#'
+  slug: jimny
+  sub_title: Le 4x4 compact par excellence
+  title: SUZUKI JIMNY
+  updated_at: 2024-07-16T08:01:24Z
+  vehicle_engine: Moteur thermique
+- alt_image: S-Cross Hybrid
+  body_type: SUV Confortable
+  cargo_volume: 430 - 1269
+  created_at: 2022-01-10T13:18:46Z
+  description: Ce SUV au style affirmé et raffiné satisfera toute la famille. Il sera votre allié lors de longs voyages grâce à son intérieur spacieux et une connectivité de pointe. Confortable, ses performances sont aussi au rendez-vous. Son mode de conduite repose sur la technologie du système mild-hybrid SHVS, permettant des économies d’énergie lors du freinage ou du ralentissement pour un confort de conduite inégalé. Le S-Cross dispose également d’un mode tout-terrain AllGrip apportant contrôle et assurance sur tous les types de terrains
+  displayable: true
+  emission_co2: 119 - 139
+  encrypt: EdX7Cqkml63z8SA9MOPvRc_WIT0LH6TG-jCuc6k0WMDYK7M
+  engine_type: 1.4 Boosterjet Hybrid
+  fuel_consumption: 5,3 - 6,1
+  fuel_type: Essence
+  hybrid_system: Hybride SHVS
+  id: 1ec5846b-1485-6092-aa35-0d943c703025
+  is_new: true
+  name: S-Cross Hybrid
+  position: 4
+  price: "24390.00"
+  random: 19AA39508C802001
+  seat_capacity: 5
+  settings_link: https://configurateur.suzuki.fr/modele/Nouveau_S-Cross
+  slug: s-cross-hybrid
+  sub_title: Le SUV Robuste et confortable
+  title: SUZUKI S-CROSS HYBRID
+  updated_at: 2024-09-24T14:20:21Z
+  vehicle_engine: Moteur thermique et batterie éléctrique 48V
+- alt_image: Swift Hybrid
+  body_type: null
+  cargo_volume: null
+  created_at: 2024-04-22T08:00:47Z
+  description: La Suzuki Swift est équipée de la technologie Hybrid SHVS qui est développée exclusivement par Suzuki. Grâce à un moteur thermique couplé à une batterie 12V, la Swift consomme peu d'énergie, notamment en milieu urbain, tout en assurant une grande fluidité dans la conduite.
+  displayable: false
+  emission_co2: null
+  encrypt: EdX7Cqkml63P8SA9MOPvRc_TLkh6Ha3D-jjbDdg_K7LRKEA
+  engine_type: null
+  fuel_consumption: null
+  fuel_type: null
+  hybrid_system: null
+  id: 1ef007e6-d569-6820-9454-a15a19119ab5
+  is_new: false
+  name: Swift Hybrid 3ème génération
+  position: 9
+  price: "15790.00"
+  random: 4640100006FA9CB8
+  seat_capacity: null
+  settings_link: https://configurateur.suzuki.fr/modele/Nouvelle_SWIFT
+  slug: swift-troisieme-generation
+  sub_title: Citadine et élégante
+  title: SUZUKI SWIFT HYBRID 3ÈME GÉNÉRATION
+  updated_at: 2024-09-10T10:28:29Z
+  vehicle_engine: null
+- alt_image: Across Hybride Rechargeable
+  body_type: SUV Hybride Rechargeable
+  cargo_volume: 490 - 1604
+  created_at: 2022-01-10T13:18:46Z
+  description: Premier SUV Hybride Rechargeable de la gamme Suzuki, le modèle Across signe une avancée technologique en termes d'hybridation. Disposant d'une autonomie hors norme, vous pourrez parcourir 98 kilomètres en ville en mode 100% électrique. Le Suzuki Across est doté d'un système comportant quatre modes de conduite couplé.
+  displayable: true
+  emission_co2: "22"
+  encrypt: EdX7CqkmljEu8SA9MOPvRc_TXk1zFdvL-Eqvc6k-XLbYKHA
+  engine_type: 2.5 Plug-in Hybrid E-Four
+  fuel_consumption: 1,0
+  fuel_type: Essence
+  hybrid_system: Essence / Hybride Rechargeable
+  id: 1ec5846b-1474-60f8-bbef-0d943c703025
+  is_new: false
+  name: Across Hybride Rechargeable
+  position: 6
+  price: "55290.00"
+  random: 4F199F82BB8084F1
+  seat_capacity: 5
+  settings_link: https://configurateur.suzuki.fr/modele/Across
+  slug: across
+  sub_title: Le SUV hybride rechargeable
+  title: Across Hybride Rechargeable
+  updated_at: 2024-09-24T09:56:57Z
+  vehicle_engine: Moteur thermique et Moteur électrique
+- alt_image: Vitara Hybrid
+  body_type: SUV Polyvalent
+  cargo_volume: 289 - 1119
+  created_at: 2022-01-10T13:18:46Z
+  description: Si vous rêvez d'aventure, le 4x4 Suzuki Vitara saura vous séduire. Son système hybride est efficace et fiable, celui-ci étant la version la plus performante des technologies d'hybridation légère Suzuki. Son impact environnemental est donc réduit. En ville, le gain de consommation est important.
+  displayable: true
+  emission_co2: 113 - 129
+  encrypt: EdX7Cqkml63y8SA9MOPvRc_WLkkJGqjH-Dvfe6k-WMDYK5c
+  engine_type: 1.4 Boosterjet Hybrid
+  fuel_consumption: 5,4 - 6,5
+  fuel_type: Essence
+  hybrid_system: Hybride SHVS
+  id: 1ec5846a-fcd3-6278-abfd-0d943c703025
+  is_new: true
+  name: Vitara Hybrid
+  position: 3
+  price: "21990.00"
+  random: 165C654232008001
+  seat_capacity: 5
+  settings_link: https://configurateur.suzuki.fr/modele/Vitara
+  slug: vitara
+  sub_title: Le SUV urbain et tout-terrain
+  title: SUZUKI VITARA HYBRID
+  updated_at: 2024-10-10T08:05:18Z
+  vehicle_engine: Moteur thermique et batterie éléctrique 48V
+- alt_image: Nouvelle Swift Hybrid
+  body_type: null
+  cargo_volume: null
+  created_at: 2024-04-22T09:40:46Z
+  description: Dans la nouvelle Swift Hybrid, il n’y a que du nouveau ! Nouveaux design, équipements, connectivité et nouvelles couleurs… Et toujours aussi agile, maniable, avec un plaisir de conduite incroyable.
+  displayable: true
+  emission_co2: null
+  encrypt: EdX7Cqkmlhby8SA9MOPvRc_WIUQMHKzD-jjdfqlAKrGvK-w
+  engine_type: null
+  fuel_consumption: null
+  fuel_type: null
+  hybrid_system: null
+  id: 1ef008c6-53b8-62c8-a70b-cfb24e30d665
+  is_new: true
+  name: Nouvelle Swift Hybrid
+  position: 1
+  price: "17790.00"
+  random: 198F01000050FBAF
+  seat_capacity: null
+  settings_link: https://configurateur.suzuki.fr/modele/Nouvelle_Swift_Hybrid
+  slug: swift
+  sub_title: Plus citadine, plus élégante, plus iconique
+  title: NOUVELLE SWIFT HYBRID
+  updated_at: 2024-10-02T13:07:46Z
+  vehicle_engine: null
+- alt_image: Ignis Hybrid
+  body_type: SUV Urbain ultra compact
+  cargo_volume: 204 - 1110
+  created_at: 2022-01-10T13:18:46Z
+  description: SUV ultra compact, la Suzuki Ignis Hybrid bénéficie de la technologie hybride Suzuki. A la fois simple d'utilisation, efficace et fiable, le système Hybrid SHVS permet de baisser la consommation de carburant au moment des phases les plus énergivores, lors de l'accélération et de la décélération. Idéal pour se mouvoir en milieu urbain.
+  displayable: true
+  emission_co2: 110 - 124
+  encrypt: EdX7Cqkmlyrt8SA9MOPvRc_TKEx6Hq-y8j3YCt9CXcDZKyY
+  engine_type: 1.2 Dualjet Hybrid
+  fuel_consumption: 4,9 - 5,5
+  fuel_type: Essence
+  hybrid_system: Hybride SHVS
+  id: 1ec5846a-f68c-625c-883a-0d943c703025
+  is_new: false
+  name: Ignis Hybrid
+  position: 2
+  price: "15390.00"
+  random: 400022A855AFD500
+  seat_capacity: 4
+  settings_link: https://configurateur.suzuki.fr/modele/Nouvelle_Ignis
+  slug: ignis
+  sub_title: Le SUV Urbain moderne et peu énergivore
+  title: SUZUKI IGNIS HYBRID
+  updated_at: 2024-10-10T08:45:36Z
+  vehicle_engine: Moteur thermique et batterie éléctrique 12V

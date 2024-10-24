@@ -2,32 +2,16 @@ package api
 
 import (
 	"errors"
+	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
 	"net/http"
+	"log"
 )
 
 type ApiError struct {
 	Message string `json:"message"`
 	Detail  string `json:"detail"`
-}
-
-func HandleError2(err error) (int, ApiError) {
-
-	var content ApiError
-	var code int
-
-	if errors.Is(err, gorm.ErrForeignKeyViolated) {
-		code = http.StatusNotFound
-		content.Message = "Not found" // Access specific field
-		content.Detail = ""           // Access specific field
-	} else if errors.Is(err, gorm.ErrDuplicatedKey) {
-		code = http.StatusConflict
-		content.Message = "Conflict" // Access specific field
-		content.Detail = ""          // Access specific field
-	}
-
-	return code, content
 }
 
 func HandleError(err error) (int, ApiError) {
@@ -122,4 +106,9 @@ func HandleError(err error) (int, ApiError) {
 	}
 
 	return code, response
+}
+
+func Home(c *gin.Context) {
+	log.Println("Home")
+	c.IndentedJSON(http.StatusOK, "Ok")
 }
