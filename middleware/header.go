@@ -9,12 +9,14 @@ import (
 	"fmt"
 )
 
-var allowedOrigins = strings.Split(env.GetEnvVariable("CORS_ALLOW_ORIGIN"), ",")
+var allowedOrigins = make([]string, 0)
 
 func DefaultHeadersMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		allowedOrigins = strings.Split(env.GetEnvVariable("CORS_ALLOW_ORIGIN"), ",")
 		fmt.Println("Host : ", c.Request.Host)
 		if !utils.Contains(allowedOrigins, c.Request.Host) {
+			fmt.Println("Invalid Host", allowedOrigins)
 			c.AbortWithStatus(http.StatusBadRequest)
 			return
 		}

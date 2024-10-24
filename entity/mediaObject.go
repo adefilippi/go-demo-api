@@ -3,6 +3,7 @@ package entity
 import (
 	"github.com/google/uuid"
 	"gorm.io/datatypes"
+	"time"
 )
 
 type MediaObject struct {
@@ -16,6 +17,8 @@ type MediaObject struct {
 	Association  *string        `json:"association"`
 	Dimensions   datatypes.JSON `gorm:"type:json" json:"dimensions"`
 	ModelID      uuid.UUID      `json:"model_id"` // Foreign key for Model
+	CreatedAt    time.Time      `json:"created_at"`
+	UpdatedAt    time.Time      `json:"updated_at"`
 }
 
 func (MediaObject) TableName() string {

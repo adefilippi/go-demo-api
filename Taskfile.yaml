@@ -1,0 +1,30 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  up:
+    cmds:
+      - docker compose up -d
+  run:
+    cmds:
+      - go run .
+  tidy:
+    cmds:
+      - go mod tidy
+  build:
+    cmds:
+      - go build
+  doc:
+    cmds:
+      - swag init --parseDependency --parseInternal && go run .
+  fixtures:
+    cmds:
+      - go run . fixtures
+  test:
+    cmds:
+      - GIN_MODE=test go test ./test
+

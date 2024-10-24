@@ -2,62 +2,73 @@ package test
 
 import (
 	"encoding/json"
-	"testing"
-	"net/http/httptest"
 	"net/http"
-
+	"net/http/httptest"
+	"testing"
+	"fmt"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/gin-gonic/gin"
 
-	"example/web-service-gin/repository"
 	"example/web-service-gin/entity"
-	"example/web-service-gin/api"
+	"example/web-service-gin/fixtures"
+	"example/web-service-gin/repository"
+	"example/web-service-gin/service/env"
 	"example/web-service-gin/service/router"
 )
 
-func SetupRouter() *gin.Engine {
-	gin.SetMode(gin.TestMode)
-	r := gin.Default()
-	gin.SetMode(gin.TestMode)
-	r.GET("models", api.GetModels)
-	r.GET("/", api.Home)
-	return r
+var token string
+
+type WebServiceGinSuite struct {
+	suite.Suite
+	router *gin.Engine
 }
 
-func TestHomepageHandler(t *testing.T) {
+func (s *WebServiceGinSuite) SetupSuite() {
+	fmt.Println("Setup Suite")
+	env.Init(".env.test")
 	repository.Setup()
-	r := router.SetupRouter()
-	recorder := httptest.NewRecorder()
+	fixtures.SetupFixtures()
+	s.router = router.SetupRouter()
+}
 
+func (s *WebServiceGinSuite) TearDownSuite() {
+	fmt.Println("TearDown Suite")
+}
+
+func (s *WebServiceGinSuite) SetupTest() {
+	token := "token"                       // Set token here for each test
+	s.T().Logf("Current token: %s", token) // Log token in each test
+}
+
+func TestWebServiceGinSuite(t *testing.T) {
+	suite.Run(t, new(WebServiceGinSuite))
+}
+
+func (s *WebServiceGinSuite) TestHomepageHandler() {
+	recorder := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", "/", nil)
 
-	r.ServeHTTP(recorder, req)
+	s.router.ServeHTTP(recorder, req)
 	responseData := recorder.Body.String()
-	t.Run("Get All models", func(t *testing.T) {
-		if recorder.Code != http.StatusOK {
-			t.Error("Expected 200, got ", recorder.Code, responseData)
-		}
 
-		if responseData != "Ok" {
-			t.Error("Expected response Ok, got ", responseData)
-		}
-
+	s.T().Run("Health Check", func(t *testing.T) {
+		assert.Equal(t, http.StatusOK, recorder.Code)
+		assert.Equal(t, "\"Ok\"", responseData)
 	})
 }
 
-func TestModelsGetHandler(t *testing.T) {
-	repository.Setup()
-	r := router.SetupRouter()
+func (s *WebServiceGinSuite) TestModelsGetHandler() {
 	recorder := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", "/models", nil)
+	s.router.ServeHTTP(recorder, req)
 
-	r.ServeHTTP(recorder, req)
-	responseData := recorder.Body.String()
-	t.Run("Get All models", func(t *testing.T) {
-		if recorder.Code != http.StatusOK {
-			t.Error("Expected 200, got ", recorder.Code, responseData)
-		}
+	s.T().Run("Get All models", func(t *testing.T) {
+		assert.Equal(t, http.StatusOK, recorder.Code)
+
 		var models []entity.Model
 		json.Unmarshal(recorder.Body.Bytes(), &models)
-		t.Error("Expected 200, got ", len(models))
+		assert.Equal(t, 9, len(models))
+
 	})
 }

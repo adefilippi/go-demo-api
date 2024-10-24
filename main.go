@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 	"os"
-
 	"github.com/joho/godotenv"
 
+	"example/web-service-gin/fixtures"
 	"example/web-service-gin/repository"
 	"example/web-service-gin/service/router"
 )
@@ -34,6 +34,21 @@ func goDotEnvVariable(key string) string {
 }
 
 func main() {
+
+	args := os.Args
+	if len(args) > 1 {
+		switch args[1] {
+		case "fixtures":
+			log.Println("Loading fixtures...")
+			fixtures.SetupFixtures()
+		case "dump":
+			log.Println("Dumping fixtures...")
+			fixtures.DumpFixtures()
+		}
+
+		return
+	}
+
 	repository.Setup()
 	r := router.SetupRouter()
 	r.Run("localhost:8080")

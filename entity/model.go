@@ -2,6 +2,7 @@ package entity
 
 import (
 	"github.com/google/uuid"
+	"time"
 )
 
 type Model struct {
@@ -29,6 +30,8 @@ type Model struct {
 	HybridSystem    *string       `json:"hybrid_system"`
 	Displayable     bool          `json:"displayable"`
 	Images          []MediaObject `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"images"` // Correct association
+	CreatedAt       time.Time     `json:"created_at"`
+	UpdatedAt       time.Time     `json:"updated_at"`
 }
 
 func (Model) TableName() string {

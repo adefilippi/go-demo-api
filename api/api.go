@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"log"
 )
 
 type ApiError struct {
@@ -189,5 +190,6 @@ func HandleError(err error) (int, ApiError) {
 }
 
 func Home(c *gin.Context) {
+	log.Println("Home")
 	c.IndentedJSON(http.StatusOK, "Ok")
 }

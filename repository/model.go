@@ -1,12 +1,17 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/google/uuid"
+	"github.com/gosimple/slug"
 
 	"example/web-service-gin/entity"
 )
 
 func GetAllModels() ([]entity.Model, error) {
+	if db == nil {
+		fmt.Println("db is nil")
+	}
 	var users []entity.Model
 	err := db.Model(&entity.Model{}).Preload("Images").Find(&users).Error // Use the correct field name for association
 	return users, err
@@ -23,6 +28,7 @@ func GetModelById(id uuid.UUID) (entity.Model, error) {
 func CreateModel(model entity.Model) (entity.Model, error) {
 	u := uuid.New()
 	model.ID = &u
+	model.Slug = slug.Make(model.Name)
 	transaction := db.Begin()
 	if err := db.Create(&model).Error; err != nil {
 		transaction.Rollback()
@@ -35,6 +41,7 @@ func CreateModel(model entity.Model) (entity.Model, error) {
 
 func UpdateModel(model entity.Model) (entity.Model, error) {
 	transaction := db.Begin()
+	model.Slug = slug.Make(model.Name)
 	if err := db.Save(&model).Error; err != nil {
 		transaction.Rollback()
 		return entity.Model{}, err

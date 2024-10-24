@@ -13,11 +13,12 @@ import (
 var (
 	jwksURL string
 	issuer  string // Update this to the expected issuer
-	ApiKeys = strings.Split(env.GetEnvVariable("API_KEYS_WHITE_LIST"), ",")
+	ApiKeys = make([]string, 0)
 )
 
 // Function to fetch the JWKS keys from the remote server
 func CheckApiKey(apiKey string) (bool, string) {
+	ApiKeys = strings.Split(env.GetEnvVariable("API_KEYS_WHITE_LIST"), ",")
 	if apiKey == "" || ApiKeys == nil || len(ApiKeys) == 0 {
 		// Check if bearer
 		return false, "Authorization not present in header"
@@ -44,18 +45,18 @@ func CheckBearer(bearer string) (bool, string) {
 
 	splitToken := strings.Split(bearer, "Bearer ")
 	if len(splitToken) != 2 {
-		log.Fatalf("Invalid Bearer value")
+		log.Println("Invalid Bearer value")
 		return false, "Invalid Bearer value"
 	}
 	tokenString := splitToken[1]
 	if tokenString == "" {
-		log.Fatalf("Invalid Bearer value")
+		log.Println("Invalid Bearer value")
 		return false, "Invalid Bearer value"
 	}
 
 	jwks, err := keyfunc.NewDefault([]string{jwksURL})
 	if err != nil {
-		log.Fatalf("Failed to create JWK Set from resource at the given URL.\nError: %s", err)
+		log.Println("Failed to create JWK Set from resource at the given URL.\nError: %s", err)
 		return false, "Failed to create JWK Set from resource at the given URL."
 	}
 
@@ -64,26 +65,31 @@ func CheckBearer(bearer string) (bool, string) {
 		jwt.WithValidMethods([]string{"RS256"}),
 		jwt.WithExpirationRequired(),
 		jwt.WithIssuer(issuer))
-	if err != nil || !token.Valid {
-		log.Fatalf(issuer, err)
+	if err != nil {
+		log.Println("%s", err)
 		return false, "Failed to parse token"
+	}
+
+	if !token.Valid || token == nil {
+		log.Println("Invalid token")
+		return false, "Invalid token"
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		log.Fatalf("Invalid claims")
+		log.Println("Invalid claims")
 		return false, "Invalid claims"
 	}
 
 	// Compare the "exp" claim to the current time
 	expClaim, err := claims.GetExpirationTime()
 	if err != nil {
-		log.Fatalf("Failed to get exp. Error: %s", err)
+		log.Println("Failed to get exp. Error: %s", err)
 		return false, "Failed to get exp"
 	}
 
 	if expClaim.Unix() < time.Now().Unix() {
-		log.Fatalf("Invalid token, token is expired")
+		log.Println("Invalid token, token is expired")
 		return false, "Invalid token, token is expired"
 	}
 
