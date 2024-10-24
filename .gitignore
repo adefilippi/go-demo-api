@@ -2,3 +2,4 @@
 *.sql
 vue/*
 assets/*
+test/utils/token.go

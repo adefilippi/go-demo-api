@@ -1,20 +1,24 @@
 package test
 
 import (
+	"io"
+	"bytes"
 	"encoding/json"
+	"github.com/google/uuid"
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"fmt"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/suite"
-	"github.com/gin-gonic/gin"
 
 	"example/web-service-gin/entity"
 	"example/web-service-gin/fixtures"
 	"example/web-service-gin/repository"
 	"example/web-service-gin/service/env"
 	"example/web-service-gin/service/router"
+
+	"example/web-service-gin/test/utils"
 )
 
 var token string
@@ -25,24 +29,21 @@ type WebServiceGinSuite struct {
 }
 
 func (s *WebServiceGinSuite) SetupSuite() {
-	fmt.Println("Setup Suite")
 	env.Init(".env.test")
 	repository.Setup()
-	fixtures.SetupFixtures()
 	s.router = router.SetupRouter()
+	token = utils.GetToken()
 }
 
 func (s *WebServiceGinSuite) TearDownSuite() {
-	fmt.Println("TearDown Suite")
 }
 
 func (s *WebServiceGinSuite) SetupTest() {
-	token := "token"                       // Set token here for each test
-	s.T().Logf("Current token: %s", token) // Log token in each test
+	fixtures.SetupFixtures()
 }
 
-func TestWebServiceGinSuite(t *testing.T) {
-	suite.Run(t, new(WebServiceGinSuite))
+func (s *WebServiceGinSuite) TearDownTest() {
+	// Teardown code for each test
 }
 
 func (s *WebServiceGinSuite) TestHomepageHandler() {
@@ -72,12 +73,65 @@ func (s *WebServiceGinSuite) TestModelsGetHandler() {
 	})
 }
 
+func (s *WebServiceGinSuite) TestModelsUpdateHandler() {
+	recorder := httptest.NewRecorder()
+
+	id := uuid.MustParse("1ec5846b-0068-621c-82a9-0d943c703025")
+	name := "Updated Model Name"
+	title := "Updated Title"
+	subtitle := "Updated SubTitle"
+	description := "Updated Description"
+	updatedModel := entity.Model{
+		ID:          &id,
+		Name:        name,
+		Title:       &title,
+		SubTitle:    &subtitle,
+		Description: &description,
+		IsNew:       true,
+		Price:       29999.99,
+		Slug:        "updated-model-name",
+		Displayable: true,
+	}
+
+	body, err := json.Marshal(updatedModel)
+	if err != nil {
+		s.T().Fatal(err)
+	}
+
+	req := httptest.NewRequest("PATCH", "/models/1ec5846b-147d-6496-9ee5-0d943c703025", bytes.NewReader(body))
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("Content-Type", "application/json")
+	s.router.ServeHTTP(recorder, req)
+
+	s.T().Run("Update a model", func(t *testing.T) {
+
+		var modelResponse entity.Model
+		responseBody, err := io.ReadAll(recorder.Body)
+		if err != nil {
+			s.T().Fatal(err)
+		}
+
+		if err := json.Unmarshal(responseBody, &modelResponse); err != nil {
+			s.T().Fatal(err)
+		}
+
+		assert.Equal(t, http.StatusOK, recorder.Code)
+		assert.Equal(s.T(), updatedModel.ID, modelResponse.ID)
+		assert.Equal(s.T(), updatedModel.Name, modelResponse.Name)
+	})
+}
+
 func (s *WebServiceGinSuite) TestModelsDeleteHandler() {
 	recorder := httptest.NewRecorder()
 	req := httptest.NewRequest("DELETE", "/models/1ec5846b-147d-6496-9ee5-0d943c703025", nil)
+	req.Header.Set("Authorization", "Bearer "+token)
 	s.router.ServeHTTP(recorder, req)
 
 	s.T().Run("Delete a model", func(t *testing.T) {
 		assert.Equal(t, http.StatusNoContent, recorder.Code)
 	})
+}
+
+func TestWebServiceGinSuite(t *testing.T) {
+	suite.Run(t, new(WebServiceGinSuite))
 }

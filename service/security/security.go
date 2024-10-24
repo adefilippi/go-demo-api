@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 	"time"
+	"reflect"
 	"example/web-service-gin/service/env"
 	"example/web-service-gin/service/utils"
 )
@@ -59,6 +60,9 @@ func CheckBearer(bearer string) (bool, string) {
 		log.Println("Failed to create JWK Set from resource at the given URL.\nError: %s", err)
 		return false, "Failed to create JWK Set from resource at the given URL."
 	}
+
+	log.Println(reflect.TypeOf(jwks))
+	log.Println(jwks)
 
 	token, err := jwt.Parse(tokenString,
 		jwks.Keyfunc,
