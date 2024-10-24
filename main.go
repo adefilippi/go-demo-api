@@ -51,5 +51,5 @@ func main() {
 
 	repository.Setup()
 	r := router.SetupRouter()
-	r.Run("localhost:8080")
+	r.Run(":8080")
 }

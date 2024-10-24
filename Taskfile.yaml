@@ -7,8 +7,18 @@ vars:
 
 tasks:
   up:
+    desc: 'Run docker containers.'
     cmds:
-      - docker compose up -d
+      - docker compose -f compose.override.yml up -d
+  down:
+    desc: 'Stop docker containers.'
+    cmds:
+      - docker-compose down
+  restart:
+    desc: 'Relaunch docker containers.'
+    cmds:
+      - task: down
+      - task: up
   run:
     cmds:
       - go run .
