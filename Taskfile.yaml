@@ -30,7 +30,7 @@ tasks:
       - go build
   doc:
     cmds:
-      - swag init --parseDependency --parseInternal && go run .
+      - swag init --parseDependency --parseInternal
   fixtures:
     cmds:
       - go run . fixtures

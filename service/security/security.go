@@ -1,18 +1,19 @@
 package security
 
 import (
-	"github.com/MicahParks/keyfunc/v3"
-	"github.com/golang-jwt/jwt/v5"
 	"log"
 	"strings"
 	"time"
-	"reflect"
+
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/MicahParks/keyfunc/v3"
+
 	"example/web-service-gin/service/env"
 	"example/web-service-gin/service/utils"
 )
 
 var (
-	jwksURL string
+	JwksURL string
 	issuer  string // Update this to the expected issuer
 	ApiKeys = make([]string, 0)
 )
@@ -33,12 +34,12 @@ func CheckApiKey(apiKey string) (bool, string) {
 }
 
 func CheckBearer(bearer string) (bool, string) {
-	jwksURL = env.GetEnvVariable("AUTH_SERVER_KEYSET_URL")
+	JwksURL = env.GetEnvVariable("AUTH_SERVER_KEYSET_URL")
 	issuer = env.GetEnvVariable("AUTH_SERVER_NAME")
 
 	if bearer == "" {
 		return false, "Header Authorization is missing"
-	} else if jwksURL == "" {
+	} else if JwksURL == "" {
 		return false, "Auth server env var is missing"
 	} else if issuer == "" {
 		return false, "Auth server env var is missing"
@@ -54,15 +55,11 @@ func CheckBearer(bearer string) (bool, string) {
 		log.Println("Invalid Bearer value")
 		return false, "Invalid Bearer value"
 	}
-
-	jwks, err := keyfunc.NewDefault([]string{jwksURL})
+	jwks, err := keyfunc.NewDefault([]string{JwksURL})
 	if err != nil {
 		log.Println("Failed to create JWK Set from resource at the given URL.\nError: %s", err)
 		return false, "Failed to create JWK Set from resource at the given URL."
 	}
-
-	log.Println(reflect.TypeOf(jwks))
-	log.Println(jwks)
 
 	token, err := jwt.Parse(tokenString,
 		jwks.Keyfunc,

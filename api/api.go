@@ -6,7 +6,6 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
 	"net/http"
-	"log"
 )
 
 type ApiError struct {
@@ -109,6 +108,5 @@ func HandleError(err error) (int, ApiError) {
 }
 
 func Home(c *gin.Context) {
-	log.Println("Home")
 	c.IndentedJSON(http.StatusOK, "Ok")
 }
