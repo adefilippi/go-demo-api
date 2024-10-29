@@ -29,7 +29,6 @@ func HandleFile(c *gin.Context) (string, string) {
 
 	// Upload the file to specific dst.
 	c.SaveUploadedFile(file, dst)
-
 	return dst, filename
 }
 
