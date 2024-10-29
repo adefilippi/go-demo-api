@@ -9,7 +9,7 @@ tasks:
   up:
     desc: 'Run docker containers.'
     cmds:
-      - docker compose -f compose.override.yml up -d
+      - docker compose -f compose.override.yml up -d --remove-orphans
   down:
     desc: 'Stop docker containers.'
     cmds:

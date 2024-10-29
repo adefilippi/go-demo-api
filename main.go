@@ -3,10 +3,13 @@ package main
 import (
 	"log"
 	"os"
+	"time"
+
 	"github.com/joho/godotenv"
 
 	"example/web-service-gin/fixtures"
 	"example/web-service-gin/repository"
+	"example/web-service-gin/service/env"
 	"example/web-service-gin/service/router"
 )
 
@@ -48,7 +51,8 @@ func main() {
 
 		return
 	}
-
+	time.Sleep(5 * time.Second)
+	env.Init(".env")
 	repository.Setup()
 	r := router.SetupRouter()
 	r.Run(":8080")
