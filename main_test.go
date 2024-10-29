@@ -67,9 +67,9 @@ func (s *WebServiceGinSuite) TearDownTest() {
 	// Teardown code for each test
 }
 
-func (s *WebServiceGinSuite) TestHomepageHandler() {
+func (s *WebServiceGinSuite) TestHealthHandler() {
 	recorder := httptest.NewRecorder()
-	req := httptest.NewRequest("GET", "/home", nil)
+	req := httptest.NewRequest("GET", "/health-check", nil)
 	fmt.Println(reflect.TypeOf(req))
 	req.Header.Set("Authorization", token)
 

@@ -10,8 +10,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var envpath string = ".env"
-
 func rootDir() string {
 	_, b, _, _ := runtime.Caller(0)
 	d := path.Join(path.Dir(b))
@@ -19,16 +17,14 @@ func rootDir() string {
 }
 
 func Init(p string) {
-	if p != "" {
-		envpath = p
-		log.Println("Using env file:", envpath)
+	if p == "" {
+		p = ".env"
 	}
+	log.Println("Before : ", os.Getenv("ENV"))
+	godotenv.Load(rootDir() + "/" + p)
+	log.Println("Before : ", os.Getenv("ENV"))
 }
 
 func GetEnvVariable(key string) string {
-	err := godotenv.Load(rootDir() + "/" + envpath)
-	if err != nil {
-		log.Fatalf("Error loading env file:%v", err)
-	}
 	return os.Getenv(key)
 }

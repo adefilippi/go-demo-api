@@ -1,0 +1,28 @@
+name: build and test
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+env:
+  APP_ENV: test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Task
+        uses: arduino/setup-task@v1
+
+      - name: Up Docker
+        run: task up
+
+      - name: Run App
+        run: task tidy
+
+      - name: Run Tests
+        run: task test
