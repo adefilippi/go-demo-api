@@ -8,7 +8,6 @@ import (
 )
 
 func setupPostgres(dsn string) (db *gorm.DB, err error) {
-	fmt.Println(dsn)
 	params := extractParamsFromDSN(dsn)
 	createDBDsn := fmt.Sprintf("host=%s user=%s password=%s port=%s sslmode=disable", params["host"], params["user"], params["password"], params["port"])
 	database, err := gorm.Open(postgres.Open(createDBDsn), &gorm.Config{

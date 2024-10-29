@@ -51,7 +51,7 @@ func main() {
 
 		return
 	}
-	time.Sleep(8 * time.Second)
+	time.Sleep(5 * time.Second)
 	env.Init(".env")
 	repository.Setup()
 	r := router.SetupRouter()
