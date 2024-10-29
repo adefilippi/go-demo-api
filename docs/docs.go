@@ -278,11 +278,11 @@ const docTemplate = `{
         "entity.MediaObject": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "association": {
                     "type": "string"
                 },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
+                "created_at": {
+                    "type": "string"
                 },
                 "dimensions": {
                     "type": "array",
@@ -291,6 +291,7 @@ const docTemplate = `{
                     }
                 },
                 "id": {
+                    "description": "Define custom UUID ID",
                     "type": "string"
                 },
                 "mime_type": {
@@ -315,7 +316,7 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 }
             }
@@ -332,11 +333,8 @@ const docTemplate = `{
                 "cargo_volume": {
                     "type": "string"
                 },
-                "createdAt": {
+                "created_at": {
                     "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
                 },
                 "description": {
                     "type": "string"
@@ -402,23 +400,11 @@ const docTemplate = `{
                 "title": {
                     "type": "string"
                 },
-                "updatedAt": {
+                "updated_at": {
                     "type": "string"
                 },
                 "vehicle_engine": {
                     "type": "string"
-                }
-            }
-        },
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
                 }
             }
         }

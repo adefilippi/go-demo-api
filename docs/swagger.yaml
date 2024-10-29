@@ -9,15 +9,16 @@ definitions:
     type: object
   entity.MediaObject:
     properties:
-      createdAt:
+      association:
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
+      created_at:
+        type: string
       dimensions:
         items:
           type: integer
         type: array
       id:
+        description: Define custom UUID ID
         type: string
       mime_type:
         type: string
@@ -34,7 +35,7 @@ definitions:
         type: string
       title:
         type: string
-      updatedAt:
+      updated_at:
         type: string
     type: object
   entity.Model:
@@ -45,10 +46,8 @@ definitions:
         type: string
       cargo_volume:
         type: string
-      createdAt:
+      created_at:
         type: string
-      deletedAt:
-        $ref: '#/definitions/gorm.DeletedAt'
       description:
         type: string
       displayable:
@@ -92,18 +91,10 @@ definitions:
         type: string
       title:
         type: string
-      updatedAt:
+      updated_at:
         type: string
       vehicle_engine:
         type: string
-    type: object
-  gorm.DeletedAt:
-    properties:
-      time:
-        type: string
-      valid:
-        description: Valid is true if Time is not NULL
-        type: boolean
     type: object
 host: localhost:8080
 info:
