@@ -18,6 +18,9 @@ jobs:
       - name: Install Task
         uses: arduino/setup-task@v1
 
+      - name: Up Docker
+        run: task up
+
       - name: Run App
         run: task tidy
 
