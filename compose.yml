@@ -7,7 +7,10 @@ services:
     ports:
       # HTTP
       - target: 8080
-        published: 8080
+        published: 8081
         protocol: tcp
-    depends_on:
-      - database
+    environment:
+      - DATABASE_URL=host=database user=api_commercial_info password=api_commercial_info dbname=api_commercial_info port=5432
+      - DATABASE_TYPE=postgres
+      - ENV=prod
+      - CORS_ALLOW_ORIGIN=localhost:8081,localhost:8080

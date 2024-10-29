@@ -20,7 +20,7 @@ func SetupRouter() *gin.Engine {
 	router.SetTrustedProxies([]string{"127.0.0.0/8", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"})
 	router.Use(middleware.DefaultHeadersMiddleware())
 
-	router.GET("/home", middleware.SecurityMiddleware(), api.Home)
+	router.GET("/health-check", api.Home)
 	router.GET("/models", api.GetModels)
 	router.GET("/models/:id", api.GetModelById)
 	router.POST("/models", middleware.SecurityMiddleware(), api.CreateModel)
