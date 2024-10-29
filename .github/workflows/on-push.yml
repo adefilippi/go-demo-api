@@ -41,6 +41,7 @@ jobs:
       - name: Check App
         run: |
           sleep 5
+          curl 'http://localhost:8081/health-check'
           HTTP_CODE=$(curl -ik -X GET 'http://localhost:8081/health-check' -o /dev/null -w '%{http_code}\n' -s)
           echo $HTTP_CODE
           if [ "$HTTP_CODE" = "200" ]; then
