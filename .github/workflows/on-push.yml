@@ -19,11 +19,12 @@ jobs:
 
       - name: Run App
         run: |
-          docker compose -f compose.yml up  -d
+          docker compose up  -d
           docker compose ps
 
       - name: Wait for service
         run: |
+          sleep 5
           while status="$(docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{else if .State.Status}}{{print .State.Status}}{{end}}" "$(docker compose ps -q app)")"; do
             case $status in
               starting) sleep 1;;
