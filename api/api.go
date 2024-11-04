@@ -2,10 +2,12 @@ package api
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
 	"net/http"
+	"reflect"
 )
 
 type ApiError struct {
@@ -15,7 +17,10 @@ type ApiError struct {
 
 func HandleError(err error) (int, ApiError) {
 	var response ApiError
+	response.Message = err.Error()
 
+	fmt.Println(reflect.TypeOf(err))
+	fmt.Println(err)
 	var code int
 
 	switch {
@@ -63,9 +68,11 @@ func HandleError(err error) (int, ApiError) {
 		code = http.StatusConflict
 	case errors.Is(err, gorm.ErrCheckConstraintViolated):
 		code = http.StatusConflict
+
 	default:
 		code = http.StatusInternalServerError
 	}
+
 	if pgErr, ok := err.(*pgconn.PgError); ok {
 		switch pgErr.Code {
 		case "23505": // unique_violation
@@ -97,11 +104,15 @@ func HandleError(err error) (int, ApiError) {
 		default:
 			code = http.StatusInternalServerError
 		}
-	}
 
-	if pgErr, ok := err.(*pgconn.PgError); ok {
 		response.Message = pgErr.Message
 		response.Detail = pgErr.Detail
+
+	} else {
+		// Generic error handling for other error types
+		code = http.StatusInternalServerError
+		response.Message = "An unexpected error occurred"
+		response.Detail = err.Error()
 	}
 
 	return code, response

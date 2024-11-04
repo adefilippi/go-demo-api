@@ -19,6 +19,7 @@ require (
 	github.com/swaggo/swag v1.16.4
 	gorm.io/datatypes v1.2.4
 	gorm.io/driver/postgres v1.5.9
+	gorm.io/driver/sqlserver v1.4.1
 	gorm.io/gorm v1.25.12
 )
 
@@ -47,6 +48,8 @@ require (
 	github.com/go-playground/validator/v10 v10.22.1 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/goccy/go-json v0.10.3 // indirect
+	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
+	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
 	github.com/h2non/parth v0.0.0-20190131123155-b4df798d6542 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
