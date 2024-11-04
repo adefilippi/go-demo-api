@@ -7,9 +7,6 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/datatypes"
 	"net/http"
-	//"os"
-	//"io/ioutil"
-	"fmt"
 
 	"example/web-service-gin/repository"
 	"example/web-service-gin/service/utils"
@@ -135,50 +132,30 @@ func GetMdelImage(c *gin.Context) {
 
 	_, error := uuid.Parse(c.Param("id"))
 	if error != nil {
-		fmt.Println("1", error)
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
 
 	mediaId, error := uuid.Parse(c.Param("image-id"))
 	if error != nil {
-		fmt.Println("2", error)
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
 
 	image, error := repository.GetMediaObjectById(mediaId)
 	if error != nil {
-		fmt.Println("3", error)
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
 
 	img, err := utils.GetFile(*image.Name, *image.Association+"_"+utils.GetAssociationValueId(image, *image.Association))
 	if err != nil {
-		fmt.Println(err)
 	}
-
-	// Send Image
-	/*imageFile, error := os.Open(*image.OriginalName)
-	if error != nil {
-		fmt.Println("4", error)
-		c.AbortWithStatus(http.StatusNotFound)
-		return
-	}
-	defer imageFile.Close()
-	imageData, error := ioutil.ReadAll(imageFile)
-	if error != nil {
-		fmt.Println("5", error)
-		c.AbortWithStatus(http.StatusNotFound)
-		return
-	}*/
 
 	c.Data(http.StatusOK, *image.MimeType, img)
 }
 
 func CreateModelImage(c *gin.Context) {
-	fmt.Println(c)
 	modelId, error := uuid.Parse(c.Param("id"))
 	if error != nil {
 		c.AbortWithStatus(http.StatusNotFound)
@@ -227,7 +204,6 @@ func CreateModelImage(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("Ok")
 	c.IndentedJSON(http.StatusCreated, mo)
 }
 

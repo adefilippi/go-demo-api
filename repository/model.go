@@ -15,9 +15,6 @@ func GetAllModels() ([]entity.Model, error) {
 	var models []entity.Model
 
 	err := db.Model(&entity.Model{}).Preload("Images").Find(&models).Error // Use the correct field name for association
-	if err != nil {
-		fmt.Println(err)
-	}
 	return models, err
 }
 

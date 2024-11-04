@@ -23,7 +23,7 @@ func DefaultHeadersMiddleware() gin.HandlerFunc {
 		if c.Request.Header.Get("Content-Type") == "" {
 			c.Request.Header.Set("Content-Type", "application/json")
 		}
-		
+
 		c.Header("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PATCH, DELETE")
 		c.Header("Access-control-allow-origin", c.Request.Header.Get("Origin"))
 		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")

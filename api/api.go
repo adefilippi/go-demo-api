@@ -2,12 +2,10 @@ package api
 
 import (
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
 	"net/http"
-	"reflect"
 )
 
 type ApiError struct {
@@ -18,9 +16,6 @@ type ApiError struct {
 func HandleError(err error) (int, ApiError) {
 	var response ApiError
 	response.Message = err.Error()
-
-	fmt.Println(reflect.TypeOf(err))
-	fmt.Println(err)
 	var code int
 
 	switch {
