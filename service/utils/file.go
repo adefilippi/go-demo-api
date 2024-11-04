@@ -12,12 +12,9 @@ import (
 	"strconv"
 )
 
-func HandleFile(c *gin.Context) (string, string) {
+func getBasePath(baseFolder string) string {
 	path, err := filepath.Abs("./")
-
-	file, _ := c.FormFile("file")
-	filename := filepath.Base(file.Filename)
-	var basePath = filepath.Join(path, "assets")
+	var basePath = filepath.Join(path, "assets", baseFolder)
 
 	if _, err = os.Stat(basePath); os.IsNotExist(err) {
 		var dirMod uint64
@@ -25,7 +22,15 @@ func HandleFile(c *gin.Context) (string, string) {
 			err = os.Mkdir(basePath, os.FileMode(dirMod))
 		}
 	}
-	dst := filepath.Join(basePath, filename)
+
+	return basePath
+}
+
+func HandleFile(c *gin.Context, baseFolder string) (string, string) {
+
+	file, _ := c.FormFile("file")
+	filename := filepath.Base(file.Filename)
+	dst := filepath.Join(getBasePath(baseFolder), filename)
 
 	// Upload the file to specific dst.
 	c.SaveUploadedFile(file, dst)
@@ -83,4 +88,34 @@ func GetImageDimensions(filename string) (int, int, error) {
 	height := img.Bounds().Dy()
 
 	return width, height, nil
+}
+
+func GetFile(filename string, path string) ([]byte, error) {
+	dst := getBasePath(path)
+	if _, err := os.Stat(filepath.Join(dst, filename)); os.IsNotExist(err) {
+		return nil, err
+	}
+
+	return os.ReadFile(filepath.Join(dst, filename))
+}
+func DeleteFile(filename string, path string) error {
+	dst := getBasePath(path)
+	if _, err := os.Stat(filepath.Join(dst, filename)); os.IsNotExist(err) {
+		return err
+	}
+	err := os.Remove(filepath.Join(dst, filename))
+
+	if err != nil {
+		return err
+	}
+
+	// Check if directory is empty and delete it if it is
+	files, err := os.ReadDir(dst)
+	if err != nil {
+		return err
+	}
+	if len(files) == 0 {
+		err = os.Remove(dst)
+	}
+	return err
 }

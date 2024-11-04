@@ -12,6 +12,8 @@ import (
 	"example/web-service-gin/service/utils"
 )
 
+const ASSOCIATION string = "model"
+
 //	@Summary		Show all models
 //	@Description	get all models
 //	@Tags			Model
@@ -127,18 +129,30 @@ func DeleteModel(c *gin.Context) {
 }
 
 func GetMdelImage(c *gin.Context) {
-	modelId, error := uuid.Parse(c.Param("id"))
+
+	_, error := uuid.Parse(c.Param("id"))
 	if error != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
-	model, error := repository.GetModelById(modelId)
-	if model.ID == nil {
+
+	mediaId, error := uuid.Parse(c.Param("image-id"))
+	if error != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
 
-	c.IndentedJSON(http.StatusCreated, model)
+	image, error := repository.GetMediaObjectById(mediaId)
+	if error != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+
+	img, err := utils.GetFile(*image.Name, *image.Association+"_"+utils.GetAssociationValueId(image, *image.Association))
+	if err != nil {
+	}
+
+	c.Data(http.StatusOK, *image.MimeType, img)
 }
 
 func CreateModelImage(c *gin.Context) {
@@ -153,17 +167,26 @@ func CreateModelImage(c *gin.Context) {
 		return
 	}
 
-	filepath, filename := utils.HandleFile(c)
-	mimetype, _ := utils.GetFileMimeType(filepath)
-	size, _ := utils.GetFileSize(filepath)
+	filepath, filename := utils.HandleFile(c, "model_"+modelId.String())
+	mimetype, err := utils.GetFileMimeType(filepath)
+	if err != nil {
+		c.AbortWithStatus(http.StatusServiceUnavailable)
+	}
+	size, err := utils.GetFileSize(filepath)
+	if err != nil {
+		c.AbortWithStatus(http.StatusServiceUnavailable)
+	}
 
+	association := ASSOCIATION
 	mo := entity.MediaObject{
 		ModelID:      *model.ID,
 		Name:         &filename,
 		OriginalName: &filename,
 		MimeType:     &mimetype,
 		Size:         &size,
+		Association:  &association,
 	}
+
 	if utils.IsImageMimeType(mimetype) {
 		width, height, err := utils.GetImageDimensions(filepath)
 		dimensions := [2]int{width, height}
@@ -180,9 +203,21 @@ func CreateModelImage(c *gin.Context) {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
+
 	c.IndentedJSON(http.StatusCreated, mo)
 }
 
 func DeleteModelImage(c *gin.Context) {
-
+	mediaId, error := uuid.Parse(c.Param("image-id"))
+	if error != nil {
+		c.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+	error = repository.DeleteMediaObject(mediaId)
+	if error != nil {
+		code, messages := HandleError(error)
+		c.IndentedJSON(code, messages)
+	} else {
+		c.AbortWithStatus(http.StatusNoContent)
+	}
 }

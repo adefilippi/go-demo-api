@@ -12,9 +12,10 @@ func GetAllModels() ([]entity.Model, error) {
 	if db == nil {
 		fmt.Println("db is nil")
 	}
-	var users []entity.Model
-	err := db.Model(&entity.Model{}).Preload("Images").Find(&users).Error // Use the correct field name for association
-	return users, err
+	var models []entity.Model
+
+	err := db.Model(&entity.Model{}).Preload("Images").Find(&models).Error // Use the correct field name for association
+	return models, err
 }
 
 func GetModelById(id uuid.UUID) (entity.Model, error) {
