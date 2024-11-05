@@ -25,7 +25,7 @@ const ASSOCIATION string = "model"
 //	@Failure		500	{object}	ApiError
 //	@Router			/models [get]
 func GetModels(c *gin.Context) {
-	models, err := repository.GetAllModels()
+	models, err := repository.GetAllModels(handleQuery(c))
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
@@ -45,12 +45,7 @@ func GetModels(c *gin.Context) {
 //	@Failure		500	{object}	ApiError
 //	@Router			/models/{id} [get]
 func GetModelById(c *gin.Context) {
-	uuid, error := uuid.Parse(c.Param("id"))
-	if error != nil {
-		c.AbortWithStatus(http.StatusNotFound)
-		return
-	}
-	model, error := repository.GetModelById(uuid)
+	model, _ := repository.GetModelById(handleQuery(c))
 	c.IndentedJSON(http.StatusOK, model)
 }
 
@@ -129,20 +124,12 @@ func DeleteModel(c *gin.Context) {
 }
 
 func GetMdelImage(c *gin.Context) {
-
-	_, error := uuid.Parse(c.Param("id"))
+	_, error := repository.GetModelById(handleQuery(c))
 	if error != nil {
 		c.AbortWithStatus(http.StatusNotFound)
-		return
 	}
 
-	mediaId, error := uuid.Parse(c.Param("image-id"))
-	if error != nil {
-		c.AbortWithStatus(http.StatusNotFound)
-		return
-	}
-
-	image, error := repository.GetMediaObjectById(mediaId)
+	image, error := repository.GetMediaObjectById(handleQuery(c))
 	if error != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
@@ -156,13 +143,15 @@ func GetMdelImage(c *gin.Context) {
 }
 
 func CreateModelImage(c *gin.Context) {
-	modelId, error := uuid.Parse(c.Param("id"))
-	if error != nil {
-		c.AbortWithStatus(http.StatusNotFound)
+
+	model, error := repository.GetModelById(handleQuery(c))
+	if model.ID == nil {
+		c.IndentedJSON(http.StatusNotFound, "Model not found")
 		return
 	}
-	model, error := repository.GetModelById(modelId)
-	if model.ID == nil {
+
+	modelId, error := uuid.Parse(c.Param("id"))
+	if error != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
@@ -208,12 +197,7 @@ func CreateModelImage(c *gin.Context) {
 }
 
 func DeleteModelImage(c *gin.Context) {
-	mediaId, error := uuid.Parse(c.Param("image-id"))
-	if error != nil {
-		c.AbortWithStatus(http.StatusNotFound)
-		return
-	}
-	error = repository.DeleteMediaObject(mediaId)
+	error := repository.DeleteMediaObject(handleQuery(c))
 	if error != nil {
 		code, messages := HandleError(error)
 		c.IndentedJSON(code, messages)

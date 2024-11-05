@@ -6,6 +6,8 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
 	"net/http"
+
+	"example/web-service-gin/service/request"
 )
 
 type ApiError struct {
@@ -115,4 +117,8 @@ func HandleError(err error) (int, ApiError) {
 
 func Home(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, "Ok")
+}
+
+func handleQuery(c *gin.Context) map[string]interface{} {
+	return request.HandleQueryParams(c)
 }

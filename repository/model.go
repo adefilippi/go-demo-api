@@ -6,21 +6,36 @@ import (
 	"github.com/gosimple/slug"
 
 	"example/web-service-gin/entity"
+	"example/web-service-gin/service/utils"
 )
 
-func GetAllModels() ([]entity.Model, error) {
-	if db == nil {
-		fmt.Println("db is nil")
-	}
+func GetAllModels(parameters map[string]interface{}) ([]entity.Model, error) {
 	var models []entity.Model
+	criterias := entity.Model{}
+	var filters map[string]interface{}
+	var ok bool
 
-	err := db.Model(&entity.Model{}).Preload("Images").Find(&models).Error // Use the correct field name for association
+	if parameters["filters"] != nil {
+		filters, ok = parameters["filters"].(map[string]interface{})
+		if !ok {
+			fmt.Println("expected filters to be of type map[string]interface{}, got ", parameters["filters"])
+			return models, fmt.Errorf("expected filters to be of type map[string]interface{}, got %T", parameters["filters"])
+		}
+	}
+
+	where, params := utils.FiltersToWhereQuery(filters, &criterias)
+	err := db.Model(&entity.Model{}).Preload("Images").Limit(parameters["itemsPerPage"].(int)).Offset((parameters["page"].(int)-1)*parameters["itemsPerPage"].(int)).Where(where, params...).Find(&models).Error // Use the correct field name for association
 	return models, err
 }
 
-func GetModelById(id uuid.UUID) (entity.Model, error) {
+func GetModelById(parameters map[string]interface{}) (entity.Model, error) {
+	id := parameters["path"].(map[string]interface{})["id"]
+	uid, err := utils.ParseId(id)
+	if err != nil {
+		return entity.Model{}, err
+	}
 	var model entity.Model
-	if result := db.First(&model, id); result.Error != nil {
+	if result := db.First(&model, uid); result.Error != nil {
 		return entity.Model{}, result.Error
 	}
 	return model, nil
