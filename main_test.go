@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 	"encoding/json"
 
@@ -94,6 +95,36 @@ func (s *WebServiceGinSuite) TestModelsGetHandler() {
 		var models []entity.Model
 		json.Unmarshal(recorder.Body.Bytes(), &models)
 		assert.Equal(t, 9, len(models))
+	})
+
+	recorder = httptest.NewRecorder()
+	req = httptest.NewRequest("GET", "/models?slug=swift-sport", nil)
+	s.router.ServeHTTP(recorder, req)
+	s.T().Run("Get models by slug", func(t *testing.T) {
+		assert.Equal(t, http.StatusOK, recorder.Code)
+		var models []entity.Model
+		json.Unmarshal(recorder.Body.Bytes(), &models)
+		assert.Equal(t, 1, len(models))
+	})
+
+	recorder = httptest.NewRecorder()
+	req = httptest.NewRequest("GET", "/models?title="+url.QueryEscape("suzuki vitara hybrid"), nil)
+	s.router.ServeHTTP(recorder, req)
+	s.T().Run("Get models by title", func(t *testing.T) {
+		assert.Equal(t, http.StatusOK, recorder.Code)
+		var models []entity.Model
+		json.Unmarshal(recorder.Body.Bytes(), &models)
+		assert.Equal(t, 1, len(models))
+	})
+
+	recorder = httptest.NewRecorder()
+	req = httptest.NewRequest("GET", "/models?name="+url.QueryEscape("suzuki vitara hybrid"), nil)
+	s.router.ServeHTTP(recorder, req)
+	s.T().Run("Get models by name without result", func(t *testing.T) {
+		assert.Equal(t, http.StatusOK, recorder.Code)
+		var models []entity.Model
+		json.Unmarshal(recorder.Body.Bytes(), &models)
+		assert.Equal(t, 0, len(models))
 	})
 }
 

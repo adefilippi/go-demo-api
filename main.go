@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"time"
 
 	"github.com/joho/godotenv"
 
@@ -37,7 +36,7 @@ func goDotEnvVariable(key string) string {
 }
 
 func main() {
-
+	env.Init(".env")
 	args := os.Args
 	if len(args) > 1 {
 		switch args[1] {
@@ -51,8 +50,7 @@ func main() {
 
 		return
 	}
-	time.Sleep(5 * time.Second)
-	env.Init(".env")
+
 	repository.Setup()
 	r := router.SetupRouter()
 	r.Run(":8080")
