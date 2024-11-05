@@ -3,6 +3,8 @@ package utils
 import (
 	"database/sql"
 	"reflect"
+	"github.com/google/uuid"
+	"fmt"
 )
 
 func Contains(s []string, e string) bool {
@@ -28,4 +30,18 @@ func ScanStruct(dest interface{}, rows *sql.Rows) error {
 	}
 
 	return nil
+}
+
+func ParseId(id interface{}) (uuid.UUID, error) {
+	idStr, ok := id.(string)
+	if !ok {
+		return uuid.UUID{}, fmt.Errorf("expected string for id, got %T", id)
+	}
+
+	uid, error := uuid.Parse(idStr)
+	if error != nil {
+		return uuid.UUID{}, error
+	}
+
+	return uid, nil
 }

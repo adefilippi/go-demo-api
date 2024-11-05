@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"encoding/json"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -79,7 +80,20 @@ func (s *WebServiceGinSuite) TestHealthHandler() {
 	s.T().Run("Health Check", func(t *testing.T) {
 		assert.Equal(t, http.StatusOK, recorder.Code)
 		assert.Equal(t, "\"Ok\"", responseData)
-		//assert.Equal(t, "a", "b")
+	})
+}
+
+func (s *WebServiceGinSuite) TestModelsGetHandler() {
+	recorder := httptest.NewRecorder()
+	req := httptest.NewRequest("GET", "/models", nil)
+	s.router.ServeHTTP(recorder, req)
+
+	s.T().Run("Get All models", func(t *testing.T) {
+		assert.Equal(t, http.StatusOK, recorder.Code)
+
+		var models []entity.Model
+		json.Unmarshal(recorder.Body.Bytes(), &models)
+		assert.Equal(t, 9, len(models))
 	})
 }
 
@@ -170,6 +184,8 @@ func (s *WebServiceGinSuite) TestModelsAddFileHandler() {
 	recorder = httptest.NewRecorder()
 	s.router.ServeHTTP(recorder, req)
 	s.T().Run("Create image to model", func(t *testing.T) {
+		assert.Equal(t, http.StatusCreated, recorder.Code)
+
 		var mediaObjectResponse entity.MediaObject
 		err := utils.UnmarshallResponse(recorder, &mediaObjectResponse)
 		if err != nil {
@@ -177,7 +193,6 @@ func (s *WebServiceGinSuite) TestModelsAddFileHandler() {
 			t.Errorf("Error unmarshalling response: %v - %v", err, responseData)
 			return
 		}
-		assert.Equal(t, http.StatusCreated, recorder.Code)
 		assert.Equal(s.T(), "test.jpg", *mediaObjectResponse.Name)
 		assert.Equal(s.T(), *modelResponse.ID, mediaObjectResponse.ModelID)
 		assert.Equal(s.T(), "image/jpeg", *mediaObjectResponse.MimeType)

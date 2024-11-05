@@ -34,6 +34,9 @@ tasks:
   fixtures:
     cmds:
       - go run . fixtures
+  dump:
+    cmds:
+      - go run . dump
   test:
     cmds:
       - GIN_MODE=test go test .

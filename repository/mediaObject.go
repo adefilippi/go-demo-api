@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 
 	"example/web-service-gin/entity"
+	"example/web-service-gin/service/utils"
 )
 
 func CreateMediaObject(mediaObject entity.MediaObject) (entity.MediaObject, error) {
@@ -20,29 +21,33 @@ func CreateMediaObject(mediaObject entity.MediaObject) (entity.MediaObject, erro
 	return mediaObject, nil
 }
 
-func GetMediaObjectById(id uuid.UUID) (entity.MediaObject, error) {
+func GetMediaObjectById(parameters map[string]interface{}) (entity.MediaObject, error) {
+
+	id := parameters["path"].(map[string]interface{})["image-id"]
+	uid, err := utils.ParseId(id)
+	if err != nil {
+		return entity.MediaObject{}, err
+	}
+
 	var mediaObject entity.MediaObject
-	if result := db.First(&mediaObject, id); result.Error != nil {
+	if result := db.First(&mediaObject, uid); result.Error != nil {
 		return entity.MediaObject{}, result.Error
 	}
 	return mediaObject, nil
 }
 
-func DeleteMediaObject(id uuid.UUID) error {
-	mediaObject, err := GetMediaObjectById(id)
+func DeleteMediaObject(parameters map[string]interface{}) error {
+	mediaObject, err := GetMediaObjectById(parameters)
 	if err == nil {
 		return err
 	}
-
 	transaction := db.Begin()
-
 	if err := db.Delete(&mediaObject).Error; err != nil {
 		transaction.Rollback()
 		fmt.Println("Erreur ", err)
 		return err
 	}
 
-	fmt.Println("mediaObject (Before Delete)", mediaObject)
 	transaction.Commit()
 	return nil
 }

@@ -6,19 +6,19 @@ import (
 )
 
 type Model struct {
-	ID              *uuid.UUID    `gorm:"type:uuid;primaryKey" json:"id,omitempty" groups:"model"`
-	Name            string        `json:"name,omitempty" groups:"model"`
-	Title           *string       `json:"title,omitempty" groups:"model"`
-	SubTitle        *string       `json:"sub_title,omitempty" groups:"model"`
-	Description     *string       `json:"description,omitempty" groups:"model, model:write"`
-	IsNew           bool          `json:"is_new,omitempty"`
+	ID              *uuid.UUID    `gorm:"type:uuid;primaryKey" json:"id,omitempty" filter:"id"`
+	Name            string        `json:"name,omitempty" filter:"name"`
+	Title           *string       `json:"title,omitempty" filter:"title"`
+	SubTitle        *string       `json:"sub_title,omitempty"`
+	Description     *string       `json:"description,omitempty"`
+	IsNew           bool          `json:"is_new,omitempty" filter:"isNew"`
 	Encrypt         *string       `json:"encrypt,omitempty"`
 	Random          *string       `json:"random,omitempty"`
 	SettingsLink    *string       `json:"settings_link,omitempty"`
 	AltImage        *string       `json:"alt_image,omitempty"`
-	Position        *int          `json:"position,omitempty"`
-	Price           float64       `json:"price,omitempty"`
-	Slug            string        `json:"slug,omitempty" group:"model"`
+	Position        *int          `json:"position,omitempty" filter:"position"`
+	Price           float64       `json:"price,omitempty" filter:"price"`
+	Slug            string        `json:"slug,omitempty" filter:"slug"`
 	BodyType        *string       `json:"body_type,omitempty"`
 	CargoVolume     *string       `json:"cargo_volume,omitempty"`
 	EmissionCO2     *string       `json:"emission_co2,omitempty"`
@@ -30,8 +30,8 @@ type Model struct {
 	HybridSystem    *string       `json:"hybrid_system,omitempty"`
 	Displayable     bool          `json:"displayable,omitempty"`
 	Images          []MediaObject `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"images,omitempty" groups:"model" not_selectable:"true"` // Correct association
-	CreatedAt       time.Time     `json:"created_at,omitempty" groups:"timestampable"`
-	UpdatedAt       time.Time     `json:"updated_at,omitempty" groups:"timestampable"`
+	CreatedAt       time.Time     `json:"created_at,omitempty" filter:"createdAt"`
+	UpdatedAt       time.Time     `json:"updated_at,omitempty" filter:"updatedAt"`
 }
 
 func (Model) TableName() string {
