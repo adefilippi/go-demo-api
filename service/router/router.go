@@ -33,7 +33,6 @@ func SetupRouter() *gin.Engine {
 
 	docs.SwaggerInfo.BasePath = "/"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-
 	router.Use(cors.New(cors.Config{
 		AllowMethods:     []string{"PUT", "PATCH"},
 		AllowHeaders:     []string{"Origin"},

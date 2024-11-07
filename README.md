@@ -86,9 +86,33 @@ Example:
 curl --location --request GET 'https://example.com/models?title=The Title&name=The Name'
 
  ```
+## 5. Swagger documentation
+Package documentation : https://github.com/swaggo/swag
 
-## 5. Fixtures
-Documentation : https://github.com/go-testfixtures/testfixtures
+Swagger documentation is generated automatically by command `task doc` based on comments in the source code.
+For example :
+```go
+//	@Summary		Show an account
+//	@Description	get string by ID
+//	@Tags			Model
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		string	true	"Model ID"
+//	@Success		200	{object}	entity.Model
+//	@Failure		400	{object}	ApiError
+//	@Failure		404	{object}	ApiError
+//	@Failure		500	{object}	ApiError
+//	@Router			/models/{id} [get]
+func GetModelById(c *gin.Context) {
+model, _ := repository.GetModelById(handleQuery(c))
+c.IndentedJSON(http.StatusOK, model)
+}
+```
+Results by : 
+![img.png](doc%2Fimg.png)
+
+## 6. Fixtures
+Package documentation : https://github.com/go-testfixtures/testfixtures
 
 
 Before each test, fixtures are loaded from the directory $${\color{#BF4342}fixtures/ORM}$$ and imported in the test database.
@@ -109,7 +133,7 @@ func (s *WebServiceGinSuite) SetupTest() {
 ```
 <br/>
 
-#### 2. Add test
+#### 7. Add test
 ```go
 //main_test.go
 func (s *WebServiceGinSuite) TestEndpointHandler() {
