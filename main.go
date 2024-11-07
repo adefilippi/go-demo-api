@@ -25,7 +25,12 @@ import (
 //	@securityDefinitions.apikey	ApiKeyAuth
 //	@in							header
 //	@name						Authorization
-//	@description				Description for what is this security definition being used
+//	@description				Authentication with Bearer Token (JWT)
+
+// 	@securityDefinitions.apikey BearerAuth
+// 	@in 						header
+// @name 						Authorization
+// @description 				Authentication with Bearer Token (JWT)
 
 func goDotEnvVariable(key string) string {
 	err := godotenv.Load(".env")
