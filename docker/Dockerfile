@@ -1,10 +1,10 @@
 ARG GO_VERSION=1.23
 
 FROM golang:${GO_VERSION}-alpine
-COPY go.mod ./
 ENV GIN_MODE=release
-RUN go mod download
 COPY . ./
-RUN go build -o /app
+RUN go mod download
+RUN go build -ldflags="-s -w" -trimpath -o /app
+RUN apk add upx && upx --best /app
 EXPOSE 8080
 CMD [ "/app" ]
