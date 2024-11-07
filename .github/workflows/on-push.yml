@@ -5,6 +5,7 @@ on:
     branches:
       - release
       - main
+      - test/deploy
 
 jobs:
   deploy:
@@ -31,7 +32,7 @@ jobs:
               running) exit 0;;
               unhealthy)
                 docker compose ps
-                docker compose logs php-fpm
+                docker compose logs app
                 exit 1
               ;;
             esac
@@ -41,6 +42,7 @@ jobs:
       - name: Check App
         run: |
           sleep 5
+          docker compose ps
           HTTP_CODE=$(curl -ik -X GET 'http://localhost:8081/health-check' -o /dev/null -w '%{http_code}\n' -s)
           echo $HTTP_CODE
           if [ "$HTTP_CODE" = "200" ]; then
