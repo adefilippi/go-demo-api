@@ -123,6 +123,18 @@ func DeleteModel(c *gin.Context) {
 	}
 }
 
+//	@Summary		Get a model image
+//	@Description	Get by model image ID
+//	@Tags			Model - image
+//	@Accept			json
+//	@Produce		application/octet-stream
+//	@Param			id	path	string	true	"Model ID"
+//	@Param			image-id	path	string	true	"Model Image ID"
+//	@Success 200 {file} file "Image or file"
+//	@Failure		400	{object}	ApiError
+//	@Failure		404	{object}	ApiError
+//	@Failure		500	{object}	ApiError
+//	@Router			/models/{id}/image/{image-id} [get]
 func GetMdelImage(c *gin.Context) {
 	_, error := repository.GetModelById(handleQuery(c))
 	if error != nil {
@@ -142,6 +154,19 @@ func GetMdelImage(c *gin.Context) {
 	c.Data(http.StatusOK, *image.MimeType, img)
 }
 
+//	@Summary		Post a model image
+//	@Description	Post by model image ID
+//	@Tags			Model - image
+//	@Accept			multipart/form-data
+//	@Produce		json
+//	@Param			id	path	string	true	"Model ID"
+//  @Param file formData file true "Image file"
+// @Param tag formData string true "Tag for the image"
+//	@Success		200	{object}	entity.MediaObject
+//	@Failure		400	{object}	ApiError
+//	@Failure		404	{object}	ApiError
+//	@Failure		500	{object}	ApiError
+//	@Router			/models/{id}/image [post]
 func CreateModelImage(c *gin.Context) {
 
 	model, error := repository.GetModelById(handleQuery(c))
@@ -196,6 +221,18 @@ func CreateModelImage(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, mo)
 }
 
+//	@Summary		Delete a model image
+//	@Description	Delete by  model image ID
+//	@Tags			Model - image
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path	string	true	"Model ID"
+//	@Param			image-id	path	string	true	"Model Image ID"
+//	@Success		204	{object}	entity.MediaObject
+//	@Failure		400	{object}	ApiError
+//	@Failure		404	{object}	ApiError
+//	@Failure		500	{object}	ApiError
+//	@Router			/models/{id}/image/{image-id} [delete]
 func DeleteModelImage(c *gin.Context) {
 	error := repository.DeleteMediaObject(handleQuery(c))
 	if error != nil {

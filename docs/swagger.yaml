@@ -29,6 +29,8 @@ definitions:
         type: string
       original_name:
         type: string
+      path:
+        type: string
       size:
         type: integer
       tag:
@@ -36,6 +38,8 @@ definitions:
       title:
         type: string
       updated_at:
+        type: string
+      url:
         type: string
     type: object
   entity.Model:
@@ -267,6 +271,124 @@ paths:
       summary: Update a Model
       tags:
       - Model
+  /models/{id}/image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Post by model image ID
+      parameters:
+      - description: Model ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Image file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Tag for the image
+        in: formData
+        name: tag
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.MediaObject'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Post a model image
+      tags:
+      - Model - image
+  /models/{id}/image/{image-id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete by  model image ID
+      parameters:
+      - description: Model ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Model Image ID
+        in: path
+        name: image-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/entity.MediaObject'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Delete a model image
+      tags:
+      - Model - image
+    get:
+      consumes:
+      - application/json
+      description: Get by model image ID
+      parameters:
+      - description: Model ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Model Image ID
+        in: path
+        name: image-id
+        required: true
+        type: string
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: Image or file
+          schema:
+            type: file
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/api.ApiError'
+      summary: Get a model image
+      tags:
+      - Model - image
 securityDefinitions:
   ApiKeyAuth:
     description: Description for what is this security definition being used
