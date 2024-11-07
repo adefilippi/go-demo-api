@@ -3,3 +3,4 @@
 vue/*
 assets/*
 test/utils/token.go
+docs/*
