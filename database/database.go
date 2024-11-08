@@ -3,69 +3,87 @@ package database
 import (
 	"fmt"
 	"gorm.io/gorm"
-	"strings"
+	"os"
 	"time"
 
-	"example/web-service-gin/entity"
+	"gopkg.in/yaml.v3"
+
 	"example/web-service-gin/service/env"
 )
 
-var db *gorm.DB
-var err error
+var dbs map[string]*gorm.DB
 
-func Setup() {
-
-	dsn := env.GetEnvVariable("DATABASE_URL")
-
-	if dsn == "" {
-		panic("No DSN provided")
-	}
-
-	db_type := env.GetEnvVariable("DATABASE_TYPE")
-
-	if db_type == "" {
-		panic("No Database Type provided")
-	}
-
-	if db_type == "postgres" {
-		db, err = setupPostgres(dsn)
-		if err != nil {
-			panic(fmt.Sprintf("failed to connect database: %v", err))
-		}
-	} else {
-		panic("Unsupported Database Type")
-	}
-
-	sqlDB, err := db.DB()
-
-	if err == nil {
-		sqlDB.SetMaxIdleConns(10)
-		sqlDB.SetMaxOpenConns(100)
-		sqlDB.SetConnMaxLifetime(time.Hour)
-	}
-	db.AutoMigrate(&entity.Model{}, &entity.MediaObject{})
+// Database interface for common database functionality
+type Database interface {
+	Open(dsn string, config gorm.Config) (*gorm.DB, error)
+	PingContext() error
+	DB() *gorm.DB
 }
 
-func extractParamsFromDSN(dsn string) map[string]string {
-	params := make(map[string]string)
+func Setup() *gorm.DB {
+	dbs = make(map[string]*gorm.DB)
+	file, err := os.Open("config/database.yml")
+	if err != nil {
+		panic(fmt.Errorf("Error opening YAML file: %v", err))
+	}
+	defer file.Close()
 
-	// Split the DSN into key=value pairs
-	parts := strings.Split(dsn, " ")
+	var config map[string]interface{}
+	decoder := yaml.NewDecoder(file)
+	if err := decoder.Decode(&config); err != nil {
+		panic(fmt.Errorf("Error decoding YAML file: %v", err))
+	}
 
-	// Iterate over the parts and split each by '='
-	for _, part := range parts {
-		keyValue := strings.SplitN(part, "=", 2)
-		if len(keyValue) == 2 {
-			params[keyValue[0]] = keyValue[1]
+	if database, ok := config["database"].(map[string]interface{}); ok {
+		for key, value := range database {
+			if dbConfig, ok := value.(map[string]interface{}); ok {
+				var dsn, adapter string
+
+				if dsn, ok = dbConfig["dsn"].(string); !ok {
+					panic(fmt.Sprintf("Invalid or missing dsn for database: %s", key))
+				}
+				dsn = env.GetEnvVariable(dsn)
+
+				if adapter, ok = dbConfig["adapter"].(string); !ok {
+					panic(fmt.Sprintf("Invalid or missing adapter for database: %s", key))
+				}
+
+				var db Database
+				switch adapter {
+				case "postgres":
+					db = &PostgresDB{}
+				case "sqlsrv":
+					db = &SQLServerDB{}
+				default:
+					panic(fmt.Sprintf("Unsupported adapter: %s", adapter))
+				}
+
+				gormDB, err := db.Open(dsn, gorm.Config{})
+				if err != nil {
+					panic(fmt.Sprintf("Failed to setup %s database: %v", key, err))
+				}
+
+				if err := db.PingContext(); err != nil {
+					panic(fmt.Sprintf("Failed to ping %s database: %v", key, err))
+				}
+
+				sqlDB, _ := gormDB.DB()
+				sqlDB.SetMaxIdleConns(10)
+				sqlDB.SetMaxOpenConns(100)
+				sqlDB.SetConnMaxLifetime(time.Hour)
+
+				dbs[key] = gormDB
+			}
 		}
 	}
-
-	return params
+	return dbs["default"]
 }
 
-func GetDB() *gorm.DB {
-	if db == nil {
-		Setup()
+func GetDB(database string) *gorm.DB {
+	// Ckeck if database key exist in map
+	if _, ok := dbs[database]; !ok {
+		panic(fmt.Sprintf("Invalid database: %s", database))
 	}
-	return db
+
+	return dbs[database]
 }

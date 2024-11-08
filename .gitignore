@@ -5,3 +5,5 @@ assets/*
 test/utils/token.go
 docs/*
 !docs/docs.go
+.env
+.env.local

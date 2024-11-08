@@ -1,0 +1,13 @@
+database:
+    default:
+        adapter: postgres
+        encoding: utf8
+        dsn: env("POSTGRES_DSN")
+        pool: 5
+        timeout: 5000
+    crm:
+        adapter: sqlsrv
+        encoding: utf8
+        dsn: env("SQL_SERVER_DSN")
+        pool: 5
+        timeout: 5000

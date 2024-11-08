@@ -8,5 +8,5 @@ import (
 var db *gorm.DB
 
 func Setup() {
-	db = database.GetDB()
+	db = database.Setup()
 }
