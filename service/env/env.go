@@ -5,6 +5,7 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"regexp"
 
 	"github.com/joho/godotenv"
 )
@@ -23,5 +24,13 @@ func Init(p string) {
 }
 
 func GetEnvVariable(key string) string {
-	return os.Getenv(key)
+	envPattern := regexp.MustCompile(`env\(["']([^"']+)["']\)`)
+	match := envPattern.FindStringSubmatch(key)
+
+	if len(match) == 2 {
+		envVar := match[1]
+		return os.Getenv(envVar)
+	} else {
+		return os.Getenv(key)
+	}
 }

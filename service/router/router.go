@@ -31,6 +31,8 @@ func SetupRouter() *gin.Engine {
 	router.POST("/models/:id/image", middleware.SecurityMiddleware(), api.CreateModelImage)
 	router.DELETE("/models/:id/image/:image-id", middleware.SecurityMiddleware(), api.DeleteModelImage)
 
+	router.GET("/location/:codeCE", api.GetLocationInfos)
+
 	docs.SwaggerInfo.BasePath = "/"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	router.Use(cors.New(cors.Config{

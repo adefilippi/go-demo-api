@@ -55,6 +55,41 @@ Each **$${\color{#BF4342}protected}$$** route **$${\color{#BF4342}must have midd
 <br/>
 On each request to API, if route is protected, request must have header <span style="color:#BF4342; font-weight:bold">Authorization</span> (Bearer jwt token) or <span style="color:#BF4342; font-weight:bold">X-API-Key</span> 
 
+## 4. Databases and entities
+#### 1. Databases
+If you want to use one or multiple databases, you have to update config/database.yml file. "default" entry is for the default database :
+```yaml
+database:
+  default:
+    adapter: postgres
+    encoding: utf8
+    dsn: env("POSTGRES_DSN")
+    pool: 5
+    timeout: 5000
+    migrate: true
+    config:
+      log_level: silent
+      skip_default_transaction: true
+      disable_nested_transaction: true
+      create_batch_size: 5000
+      full_save_associations: true
+    entities:
+      - "entity.Model"
+      - "entity.MediaObject"
+```
+The options dsn and adapter are required for each connection. 
+#### 2. Migrations
+If you have to play migrations, register path of the entity in the database.yml file and to register init func into your struct file : 
+```go
+
+func init() {
+	RegisterType("package.EntityName", func() interface{} {
+		return &EntityName{}
+	})
+}
+```
+
+
 ## 4. Pagination and Filters
 #### 1. Pagination and items per page
 You can paginate results of a query by setting the query parameter $${\color{#BF4342}itemsPerPage}$$ and the page number $${\color{#BF4342}page}$$.

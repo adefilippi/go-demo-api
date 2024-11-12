@@ -1,0 +1,24 @@
+database:
+    default:
+        adapter: postgres
+        encoding: utf8
+        dsn: env("POSTGRES_DSN")
+        pool: 5
+        timeout: 5000
+        migrate: true
+        config:
+            log_level: silent
+            #skip_default_transaction: true
+            #disable_nested_transaction: true
+            #create_batch_size: 5000
+            #full_save_associations: true
+        entities:
+            - "entity.Model"
+            - "entity.MediaObject"
+
+    #crm:
+    #    adapter: sqlsrv
+    #    encoding: utf8
+    #    dsn: env("SQL_SERVER_DSN")
+    #    pool: 5
+    #    timeout: 5000
