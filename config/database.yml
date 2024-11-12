@@ -12,9 +12,9 @@ database:
             #create_batch_size: 5000
             #full_save_associations: true
 
-    crm:
-        adapter: sqlsrv
-        encoding: utf8
-        dsn: env("SQL_SERVER_DSN")
-        pool: 5
-        timeout: 5000
+    #crm:
+    #    adapter: sqlsrv
+    #    encoding: utf8
+    #    dsn: env("SQL_SERVER_DSN")
+    #    pool: 5
+    #    timeout: 5000
