@@ -10,6 +10,12 @@ import (
 	"example/web-service-gin/service/utils"
 )
 
+func init() {
+	RegisterType("entity.MediaObject", func() interface{} {
+		return &MediaObject{}
+	})
+}
+
 type MediaObject struct {
 	ID           *uuid.UUID     `gorm:"type:uuid;primaryKey" json:"id"` // Define custom UUID ID
 	Title        *string        `json:"title"`

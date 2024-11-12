@@ -5,11 +5,13 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"os"
+	"reflect"
 	"time"
 
 	"gopkg.in/yaml.v3"
 
 	"example/web-service-gin/service/env"
+	"example/web-service-gin/entity"
 )
 
 var dbs map[string]*gorm.DB
@@ -19,6 +21,13 @@ type Database interface {
 	Open(dsn string, config map[string]interface{}) (*gorm.DB, error)
 	PingContext() error
 	DB() *gorm.DB
+}
+
+var typeRegistry = make(map[string]reflect.Type)
+
+// RegisterType registers a type in the global registry.
+func RegisterType(name string, t reflect.Type) {
+	typeRegistry[name] = t
 }
 
 func Setup() *gorm.DB {
@@ -40,6 +49,7 @@ func Setup() *gorm.DB {
 			if dbConfig, ok := value.(map[string]interface{}); ok {
 				var dsn, adapter string
 				var pool, timeout int
+				var migrate bool
 
 				if dsn, ok = dbConfig["dsn"].(string); !ok {
 					panic(fmt.Sprintf("Invalid or missing dsn for database: %s", key))
@@ -82,6 +92,25 @@ func Setup() *gorm.DB {
 					timeout = 10
 				}
 
+				if migrate, ok = dbConfig["migrate"].(bool); !ok {
+					migrate = false
+				}
+
+				if migrate {
+					if entityNames, ok := dbConfig["entities"].([]interface{}); ok {
+						for _, typeName := range entityNames {
+							instance, err := entity.CreateStructFromString(typeName.(string))
+							if err != nil {
+								fmt.Printf("Error creating instance for %s: %v\n", typeName, err)
+								continue
+							}
+
+							gormDB.AutoMigrate(instance)
+						}
+					}
+
+				}
+
 				sqlDB, _ := gormDB.DB()
 				sqlDB.SetMaxIdleConns(timeout)
 				sqlDB.SetMaxOpenConns(pool)
@@ -101,6 +130,9 @@ func GetDB(database string) *gorm.DB {
 	}
 
 	return dbs[database]
+}
+func GetDBs() map[string]*gorm.DB {
+	return dbs
 }
 
 func GetLogLevel(level string) logger.LogLevel {

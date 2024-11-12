@@ -5,6 +5,12 @@ import (
 	"time"
 )
 
+func init() {
+	RegisterType("entity.Model", func() interface{} {
+		return &Model{}
+	})
+}
+
 type Model struct {
 	ID              *uuid.UUID    `gorm:"type:uuid;primaryKey" json:"id,omitempty" filter:"id"`
 	Name            string        `json:"name,omitempty" filter:"name"`
