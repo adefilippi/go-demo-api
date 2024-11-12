@@ -5,6 +5,13 @@ database:
         dsn: env("POSTGRES_DSN")
         pool: 5
         timeout: 5000
+        config:
+            log_level: silent
+            #skip_default_transaction: true
+            #disable_nested_transaction: true
+            #create_batch_size: 5000
+            #full_save_associations: true
+
     crm:
         adapter: sqlsrv
         encoding: utf8

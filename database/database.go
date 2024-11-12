@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"os"
 	"time"
 
@@ -15,7 +16,7 @@ var dbs map[string]*gorm.DB
 
 // Database interface for common database functionality
 type Database interface {
-	Open(dsn string, config gorm.Config) (*gorm.DB, error)
+	Open(dsn string, config map[string]interface{}) (*gorm.DB, error)
 	PingContext() error
 	DB() *gorm.DB
 }
@@ -38,6 +39,7 @@ func Setup() *gorm.DB {
 		for key, value := range database {
 			if dbConfig, ok := value.(map[string]interface{}); ok {
 				var dsn, adapter string
+				var pool, timeout int
 
 				if dsn, ok = dbConfig["dsn"].(string); !ok {
 					panic(fmt.Sprintf("Invalid or missing dsn for database: %s", key))
@@ -58,7 +60,12 @@ func Setup() *gorm.DB {
 					panic(fmt.Sprintf("Unsupported adapter: %s", adapter))
 				}
 
-				gormDB, err := db.Open(dsn, gorm.Config{})
+				var config map[string]interface{}
+				if config, ok = dbConfig["config"].(map[string]interface{}); !ok {
+					config = make(map[string]interface{})
+				}
+
+				gormDB, err := db.Open(dsn, config)
 				if err != nil {
 					panic(fmt.Sprintf("Failed to setup %s database: %v", key, err))
 				}
@@ -67,9 +74,17 @@ func Setup() *gorm.DB {
 					panic(fmt.Sprintf("Failed to ping %s database: %v", key, err))
 				}
 
+				if pool, ok = dbConfig["pool"].(int); !ok {
+					pool = 100
+				}
+
+				if timeout, ok = dbConfig["timeout"].(int); !ok {
+					timeout = 10
+				}
+
 				sqlDB, _ := gormDB.DB()
-				sqlDB.SetMaxIdleConns(10)
-				sqlDB.SetMaxOpenConns(100)
+				sqlDB.SetMaxIdleConns(timeout)
+				sqlDB.SetMaxOpenConns(pool)
 				sqlDB.SetConnMaxLifetime(time.Hour)
 
 				dbs[key] = gormDB
@@ -86,4 +101,59 @@ func GetDB(database string) *gorm.DB {
 	}
 
 	return dbs[database]
+}
+
+func GetLogLevel(level string) logger.LogLevel {
+	switch level {
+	case "silent":
+		return logger.Silent
+	case "error":
+		return logger.Error
+	case "warn":
+		return logger.Warn
+	case "info":
+		return logger.Info
+	default:
+		return logger.Info // Default to Info if invalid
+	}
+}
+
+func GetConfig(config map[string]interface{}) gorm.Config {
+	var dbConfig gorm.Config
+
+	var logLevel string
+	var ok, skipDefaultTransaction, disableNestedTransaction, fullSaveAssociations, allowGlobalUpdate bool
+	var createBatchSize int
+
+	if logLevel, ok = config["log_level"].(string); !ok {
+		logLevel = "info"
+	}
+	dbConfig.Logger = logger.Default.LogMode(GetLogLevel(logLevel))
+
+	if skipDefaultTransaction, ok = config["skip_default_transaction"].(bool); !ok {
+		skipDefaultTransaction = false
+	}
+	dbConfig.SkipDefaultTransaction = skipDefaultTransaction
+
+	if disableNestedTransaction, ok = config["disable_nested_transaction"].(bool); !ok {
+		disableNestedTransaction = false
+	}
+	dbConfig.DisableNestedTransaction = disableNestedTransaction
+
+	if createBatchSize, ok = config["create_batch_size"].(int); !ok {
+		createBatchSize = 100
+	}
+	dbConfig.CreateBatchSize = createBatchSize
+
+	if fullSaveAssociations, ok = config["full_save_associations"].(bool); !ok {
+		fullSaveAssociations = false
+	}
+	dbConfig.FullSaveAssociations = fullSaveAssociations
+
+	if allowGlobalUpdate, ok = config["allow_global_update"].(bool); !ok {
+		allowGlobalUpdate = false
+	}
+	dbConfig.AllowGlobalUpdate = allowGlobalUpdate
+
+	return dbConfig
 }

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"time"
 )
 
@@ -12,13 +11,14 @@ type SQLServerDB struct {
 	db *gorm.DB
 }
 
-func (d *SQLServerDB) Open(dsn string, config gorm.Config) (*gorm.DB, error) {
+func (d *SQLServerDB) Open(dsn string, config map[string]interface{}) (*gorm.DB, error) {
+
+	dbConfig := GetConfig(config)
+	dbConfig.DisableAutomaticPing = true
+
 	var err error
 	// Open connection to the actual database
-	d.db, err = gorm.Open(sqlserver.Open(dsn), &gorm.Config{
-		Logger:               logger.Default.LogMode(logger.Silent),
-		DisableAutomaticPing: true,
-	})
+	d.db, err = gorm.Open(sqlserver.Open(dsn), &dbConfig)
 
 	if err != nil {
 		return nil, err

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"strings"
 	"time"
 )
@@ -13,17 +12,17 @@ type PostgresDB struct {
 	db *gorm.DB
 }
 
-func (p *PostgresDB) Open(dsn string, config gorm.Config) (*gorm.DB, error) {
+func (p *PostgresDB) Open(dsn string, config map[string]interface{}) (*gorm.DB, error) {
+	dbConfig := GetConfig(config)
 
 	params := extractParamsFromDSN(dsn)
 	createDBDsn := fmt.Sprintf("host=%s user=%s password=%s port=%s sslmode=disable",
 		params["host"], params["user"], params["password"], params["port"])
 
+	dbConfig.DisableAutomaticPing = true
+
 	// Open connection for creating the database
-	tempDB, err := gorm.Open(postgres.Open(createDBDsn), &gorm.Config{
-		Logger:               logger.Default.LogMode(logger.Silent),
-		DisableAutomaticPing: true,
-	})
+	tempDB, err := gorm.Open(postgres.Open(createDBDsn), &dbConfig)
 	if err != nil {
 		return nil, err
 	}
@@ -33,10 +32,7 @@ func (p *PostgresDB) Open(dsn string, config gorm.Config) (*gorm.DB, error) {
 	_ = sqlDB.Close()
 
 	// Open connection to the actual database
-	p.db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
-		Logger:               logger.Default.LogMode(logger.Silent),
-		DisableAutomaticPing: true,
-	})
+	p.db, err = gorm.Open(postgres.Open(dsn), &dbConfig)
 
 	if err != nil {
 		return nil, err
