@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"example/web-service-gin/database"
+	"github.com/syneido/go-demo-api/database"
 
 	"github.com/go-testfixtures/testfixtures/v3"
 )

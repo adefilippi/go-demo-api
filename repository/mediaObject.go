@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/google/uuid"
 
-	"example/web-service-gin/entity"
-	"example/web-service-gin/service/utils"
+	"github.com/syneido/go-demo-api/entity"
+	"github.com/syneido/go-demo-api/service/utils"
 )
 
 func CreateMediaObject(mediaObject entity.MediaObject) (entity.MediaObject, error) {

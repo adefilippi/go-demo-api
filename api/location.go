@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 
-	"example/web-service-gin/repository"
+	"github.com/syneido/go-demo-api/repository"
 )
 
 func GetLocationInfos(c *gin.Context) {

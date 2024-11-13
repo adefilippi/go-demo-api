@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 
-	"example/web-service-gin/service/request"
+	"github.com/syneido/go-demo-api/service/request"
 )
 
 type ApiError struct {

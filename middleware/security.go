@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"example/web-service-gin/service/security"
+	"github.com/syneido/go-demo-api/service/security"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

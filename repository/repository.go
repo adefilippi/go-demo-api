@@ -2,7 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
-	"example/web-service-gin/database"
+	"github.com/syneido/go-demo-api/database"
 )
 
 var db *gorm.DB
