@@ -1,4 +1,4 @@
-module example/web-service-gin
+module github.com/syneido/go-demo-api
 
 go 1.23.2
 

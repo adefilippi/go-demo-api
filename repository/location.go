@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"example/web-service-gin/database"
-	"example/web-service-gin/entity"
+	"github.com/syneido/go-demo-api/database"
+	"github.com/syneido/go-demo-api/entity"
 	"fmt"
 )
 

@@ -6,10 +6,10 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"example/web-service-gin/fixtures"
-	"example/web-service-gin/repository"
-	"example/web-service-gin/service/env"
-	"example/web-service-gin/service/router"
+	"github.com/syneido/go-demo-api/fixtures"
+	"github.com/syneido/go-demo-api/repository"
+	"github.com/syneido/go-demo-api/service/env"
+	"github.com/syneido/go-demo-api/service/router"
 )
 
 // swag init --parseDependency --parseInternal && go run .

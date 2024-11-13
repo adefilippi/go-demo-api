@@ -2,14 +2,14 @@ package api
 
 import (
 	"encoding/json"
-	"example/web-service-gin/entity"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"gorm.io/datatypes"
 	"net/http"
 
-	"example/web-service-gin/repository"
-	"example/web-service-gin/service/utils"
+	"github.com/syneido/go-demo-api/entity"
+	"github.com/syneido/go-demo-api/repository"
+	"github.com/syneido/go-demo-api/service/utils"
 )
 
 const ASSOCIATION string = "model"
