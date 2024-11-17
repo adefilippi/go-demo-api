@@ -56,7 +56,7 @@ func main() {
 		return
 	}
 
-	repository.Setup()
+	repository.Setup("config/database.yml")
 	r := router.SetupRouter()
 	r.Run(":8080")
 }

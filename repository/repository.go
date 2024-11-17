@@ -7,6 +7,6 @@ import (
 
 var db *gorm.DB
 
-func Setup() {
-	db = database.Setup("config/database.yml")
+func Setup(configPath string) {
+	db = database.Setup(configPath)
 }

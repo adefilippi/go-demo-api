@@ -36,7 +36,7 @@ type WebServiceGinSuite struct {
 
 func (s *WebServiceGinSuite) SetupSuite() {
 	env.Init(".env.test")
-	repository.Setup()
+	repository.Setup("config/database.yml")
 	s.router = router.SetupRouter()
 
 }
