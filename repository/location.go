@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/syneido/go-demo-api/database"
-	"github.com/syneido/go-demo-api/entity"
+	"github.com/adefilippi/go-demo-api/database"
+	"github.com/adefilippi/go-demo-api/entity"
 	"fmt"
 )
 

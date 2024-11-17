@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/syneido/go-demo-api/database"
+	"github.com/adefilippi/go-demo-api/database"
 
 	"github.com/go-testfixtures/testfixtures/v3"
 )

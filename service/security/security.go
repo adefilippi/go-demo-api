@@ -8,8 +8,8 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/MicahParks/keyfunc/v3"
 
-	"github.com/syneido/go-demo-api/service/env"
-	"github.com/syneido/go-demo-api/service/utils"
+	"github.com/adefilippi/go-demo-api/service/env"
+	"github.com/adefilippi/go-demo-api/service/utils"
 )
 
 var (

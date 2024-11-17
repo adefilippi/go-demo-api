@@ -8,9 +8,9 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	"github.com/syneido/go-demo-api/api"
-	docs "github.com/syneido/go-demo-api/docs"
-	"github.com/syneido/go-demo-api/middleware"
+	"github.com/adefilippi/go-demo-api/api"
+	docs "github.com/adefilippi/go-demo-api/docs"
+	"github.com/adefilippi/go-demo-api/middleware"
 )
 
 func SetupRouter() *gin.Engine {

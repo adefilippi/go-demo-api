@@ -5,8 +5,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/gosimple/slug"
 
-	"github.com/syneido/go-demo-api/entity"
-	"github.com/syneido/go-demo-api/service/utils"
+	"github.com/adefilippi/go-demo-api/entity"
+	"github.com/adefilippi/go-demo-api/service/utils"
 )
 
 func GetAllModels(parameters map[string]interface{}) ([]entity.Model, error) {

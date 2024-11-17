@@ -1,4 +1,4 @@
-module github.com/syneido/go-demo-api
+module github.com/adefilippi/go-demo-api
 
 go 1.23.2
 

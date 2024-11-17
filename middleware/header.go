@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"fmt"
 
-	"github.com/syneido/go-demo-api/service/env"
-	"github.com/syneido/go-demo-api/service/utils"
+	"github.com/adefilippi/go-demo-api/service/env"
+	"github.com/adefilippi/go-demo-api/service/utils"
 )
 
 var allowedOrigins = make([]string, 0)

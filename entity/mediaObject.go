@@ -7,7 +7,7 @@ import (
 	"time"
 	"fmt"
 
-	"github.com/syneido/go-demo-api/service/utils"
+	"github.com/adefilippi/go-demo-api/service/utils"
 )
 
 func init() {

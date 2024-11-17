@@ -10,8 +10,8 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/syneido/go-demo-api/service/env"
-	"github.com/syneido/go-demo-api/entity"
+	"github.com/adefilippi/go-demo-api/service/env"
+	"github.com/adefilippi/go-demo-api/entity"
 )
 
 var dbs map[string]*gorm.DB

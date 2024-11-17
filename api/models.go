@@ -7,9 +7,9 @@ import (
 	"gorm.io/datatypes"
 	"net/http"
 
-	"github.com/syneido/go-demo-api/entity"
-	"github.com/syneido/go-demo-api/repository"
-	"github.com/syneido/go-demo-api/service/utils"
+	"github.com/adefilippi/go-demo-api/entity"
+	"github.com/adefilippi/go-demo-api/repository"
+	"github.com/adefilippi/go-demo-api/service/utils"
 )
 
 const ASSOCIATION string = "model"
