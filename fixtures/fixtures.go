@@ -19,7 +19,7 @@ func rootDir() string {
 
 func SetupFixtures() {
 	log.Println("Loading fixtures...")
-	database.Setup()
+	database.Setup("config/database.yml")
 	db, _ := database.GetDB("default").DB()
 	fixtures, err := testfixtures.New(
 		testfixtures.Database(db),
@@ -42,7 +42,7 @@ func SetupFixtures() {
 
 func DumpFixtures() {
 	log.Println("Dumping fixtures...")
-	database.Setup()
+	database.Setup("config/database.yml")
 	db, _ := database.GetDB("default").DB()
 	dumper, err := testfixtures.NewDumper(
 		testfixtures.DumpDatabase(db),

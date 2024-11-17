@@ -30,9 +30,9 @@ func RegisterType(name string, t reflect.Type) {
 	typeRegistry[name] = t
 }
 
-func Setup() *gorm.DB {
+func Setup(path string) *gorm.DB {
 	dbs = make(map[string]*gorm.DB)
-	file, err := os.Open("config/database.yml")
+	file, err := os.Open(path)
 	if err != nil {
 		panic(fmt.Errorf("Error opening YAML file: %v", err))
 	}
