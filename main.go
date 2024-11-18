@@ -41,7 +41,10 @@ func goDotEnvVariable(key string) string {
 }
 
 func main() {
-	env.Init(".env")
+	// Get current path
+	path, _ := os.Getwd()
+
+	env.Init(path + "/.env")
 	args := os.Args
 	if len(args) > 1 {
 		switch args[1] {

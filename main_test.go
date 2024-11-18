@@ -1,11 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"testing"
-	"encoding/json"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -35,7 +36,8 @@ type WebServiceGinSuite struct {
 }
 
 func (s *WebServiceGinSuite) SetupSuite() {
-	env.Init(".env.test")
+	path, _ := os.Getwd()
+	env.Init(path + "/.env.test")
 	repository.Setup("config/database.yml")
 	s.router = router.SetupRouter()
 

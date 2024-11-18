@@ -1,11 +1,12 @@
 package env
 
 import (
+	"log"
 	"os"
 	"path"
 	"path/filepath"
-	"runtime"
 	"regexp"
+	"runtime"
 
 	"github.com/joho/godotenv"
 )
@@ -20,7 +21,8 @@ func Init(p string) {
 	if p == "" {
 		p = ".env"
 	}
-	godotenv.Load(rootDir() + "/" + p)
+	log.Println("Env file is :" + p)
+	godotenv.Load(p)
 }
 
 func GetEnvVariable(key string) string {
