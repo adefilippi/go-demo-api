@@ -1,12 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"os"
 	"testing"
+	"encoding/json"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -14,13 +13,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/adefilippi/go-demo-api/entity"
-	"github.com/adefilippi/go-demo-api/fixtures"
-	"github.com/adefilippi/go-demo-api/repository"
-	"github.com/adefilippi/go-demo-api/service/env"
-	"github.com/adefilippi/go-demo-api/service/router"
+	"github.com/syneido/go-demo-api/entity"
+	"github.com/syneido/go-demo-api/fixtures"
+	"github.com/syneido/go-demo-api/repository"
+	"github.com/syneido/go-demo-api/service/env"
+	"github.com/syneido/go-demo-api/service/router"
 
-	"github.com/adefilippi/go-demo-api/test/utils"
+	"github.com/syneido/go-demo-api/test/utils"
 
 	"fmt"
 	"reflect"
@@ -36,9 +35,8 @@ type WebServiceGinSuite struct {
 }
 
 func (s *WebServiceGinSuite) SetupSuite() {
-	path, _ := os.Getwd()
-	env.Init(path + "/.env.test")
-	repository.Setup("config/database.yml")
+	env.Init(".env.test")
+	repository.Setup()
 	s.router = router.SetupRouter()
 
 }
@@ -74,7 +72,6 @@ func (s *WebServiceGinSuite) TearDownTest() {
 func (s *WebServiceGinSuite) TestHealthHandler() {
 	recorder := httptest.NewRecorder()
 	req := httptest.NewRequest("GET", "/health-check", nil)
-	fmt.Println(reflect.TypeOf(req))
 	req.Header.Set("Authorization", token)
 
 	s.router.ServeHTTP(recorder, req)
@@ -132,7 +129,6 @@ func (s *WebServiceGinSuite) TestModelsGetHandler() {
 
 func (s *WebServiceGinSuite) TestModelsUpdateHandler() {
 	recorder := httptest.NewRecorder()
-	fmt.Println(reflect.TypeOf(recorder))
 	id := uuid.MustParse("1ec5846b-0068-621c-82a9-0d943c703025")
 	name := "Updated Model Name"
 	title := "Updated Title"
@@ -173,7 +169,6 @@ func (s *WebServiceGinSuite) TestModelsUpdateHandler() {
 
 func (s *WebServiceGinSuite) TestModelsAddFileHandler() {
 	recorder := httptest.NewRecorder()
-	fmt.Println(reflect.TypeOf(recorder))
 	name := "New Model Name"
 	title := "New Title"
 	subtitle := "New SubTitle"
@@ -235,7 +230,6 @@ func (s *WebServiceGinSuite) TestModelsAddFileHandler() {
 
 func (s *WebServiceGinSuite) TestModelsCreateHandler() {
 	recorder := httptest.NewRecorder()
-	fmt.Println(reflect.TypeOf(recorder))
 	name := "New Model Name"
 	title := "New Title"
 	subtitle := "New SubTitle"
