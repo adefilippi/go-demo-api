@@ -8,12 +8,13 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	"github.com/syneido/go-demo-api/api"
-	docs "github.com/syneido/go-demo-api/docs"
-	"github.com/syneido/go-api-core/middleware"
+	"github.com/lunmy/go-demo-api/api"
+	docs "github.com/lunmy/go-demo-api/docs"
+	"github.com/lunmy/go-demo-api/handler"
+	"github.com/lunmy/go-api-core/middleware"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter(modelHandler *handler.ModelHandler, mediaObjectHandler *handler.MediaObjectHandler) *gin.Engine {
 	router := gin.Default()
 
 	router.HandleMethodNotAllowed = true
@@ -21,15 +22,15 @@ func SetupRouter() *gin.Engine {
 	router.Use(middleware.DefaultHeadersMiddleware())
 
 	router.GET("/health-check", api.Home)
-	router.GET("/models", api.GetModels)
-	router.GET("/models/:id", api.GetModelById)
-	router.POST("/models", middleware.SecurityMiddleware(), api.CreateModel)
-	router.PATCH("/models/:id", middleware.SecurityMiddleware(), api.UpdateModel)
-	router.DELETE("/models/:id", middleware.SecurityMiddleware(), api.DeleteModel)
+	router.GET("/models", modelHandler.GetAll)
+	router.GET("/models/:id", modelHandler.GetOne)
+	router.POST("/models", middleware.SecurityMiddleware(), modelHandler.Create)
+	router.PATCH("/models/:id", middleware.SecurityMiddleware(), modelHandler.Update)
+	router.DELETE("/models/:id", middleware.SecurityMiddleware(), modelHandler.Delete)
 
-	router.GET("/models/:id/image/:image-id", api.GetMdelImage)
-	router.POST("/models/:id/image", middleware.SecurityMiddleware(), api.CreateModelImage)
-	router.DELETE("/models/:id/image/:image-id", middleware.SecurityMiddleware(), api.DeleteModelImage)
+	router.GET("/models/:id/image/:image-id", mediaObjectHandler.GetOne)
+	router.POST("/models/:id/image", middleware.SecurityMiddleware(), mediaObjectHandler.Create)
+	router.DELETE("/models/:id/image/:image-id", middleware.SecurityMiddleware(), mediaObjectHandler.Delete)
 
 	router.GET("/location/:codeCE", api.GetLocationInfos)
 

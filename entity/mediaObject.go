@@ -8,7 +8,7 @@ import (
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 
-	"github.com/syneido/go-api-core/service/utils"
+	"github.com/lunmy/go-api-core/service/utils"
 )
 
 func init() {

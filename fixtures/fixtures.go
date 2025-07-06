@@ -7,7 +7,7 @@ import (
 	"runtime"
 
 	"github.com/go-testfixtures/testfixtures/v3"
-	"github.com/syneido/go-api-core/database"
+	"github.com/lunmy/go-api-core/database"
 )
 
 func rootDir() string {

@@ -13,13 +13,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/syneido/go-api-core/service/env"
-	"github.com/syneido/go-demo-api/entity"
-	"github.com/syneido/go-demo-api/fixtures"
-	"github.com/syneido/go-demo-api/repository"
-	"github.com/syneido/go-demo-api/service/router"
+	"github.com/lunmy/go-api-core/service/env"
+	"github.com/lunmy/go-demo-api/entity"
+	"github.com/lunmy/go-demo-api/fixtures"
+	"github.com/lunmy/go-demo-api/repository"
+	"github.com/lunmy/go-demo-api/service/router"
 
-	"github.com/syneido/go-demo-api/test/utils"
+	"github.com/lunmy/go-demo-api/test/utils"
 
 	"fmt"
 )

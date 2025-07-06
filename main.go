@@ -6,10 +6,13 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/adefilippi/go-demo-api/fixtures"
-	"github.com/adefilippi/go-demo-api/repository"
-	"github.com/adefilippi/go-demo-api/service/router"
-	"github.com/syneido/go-api-core/service/env"
+	"github.com/lunmy/go-demo-api/fixtures"
+	"github.com/lunmy/go-demo-api/handler"
+	"github.com/lunmy/go-demo-api/repository"
+	"github.com/lunmy/go-demo-api/service/router"
+	"github.com/lunmy/go-api-core/database"
+	"github.com/lunmy/go-api-core/event"
+	"github.com/lunmy/go-api-core/service/env"
 )
 
 // swag init --parseDependency --parseInternal && go run .
@@ -59,7 +62,16 @@ func main() {
 		return
 	}
 
-	repository.Setup("config/database.yml")
-	r := router.SetupRouter()
+	
+	db := database.Setup("config/database.yml")
+	dispatcher := event.NewSimpleDispatcher()
+
+	modelRepo := repository.NewGenericRepository(db)
+	modelHandler := handler.NewModelHandler(modelRepo, dispatcher)
+
+	mediaObjectRepo := repository.NewGenericRepository(db)
+	mediaObjectHandler := handler.NewMediaObjectHandler(mediaObjectRepo, dispatcher)
+
+	r := router.SetupRouter(modelHandler, mediaObjectHandler)
 	r.Run(":8080")
 }

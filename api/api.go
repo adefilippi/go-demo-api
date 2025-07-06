@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
 
-	"github.com/syneido/go-api-core/service/request"
+	"github.com/lunmy/go-api-core/service/request"
 )
 
 type ApiError struct {
