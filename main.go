@@ -8,8 +8,8 @@ import (
 
 	"github.com/adefilippi/go-demo-api/fixtures"
 	"github.com/adefilippi/go-demo-api/repository"
-	"github.com/adefilippi/go-demo-api/service/env"
 	"github.com/adefilippi/go-demo-api/service/router"
+	"github.com/syneido/go-api-core/service/env"
 )
 
 // swag init --parseDependency --parseInternal && go run .

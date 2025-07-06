@@ -1,16 +1,18 @@
 package entity
 
 import (
-	"github.com/google/uuid"
-	"gorm.io/gorm"
-	"gorm.io/datatypes"
-	"time"
 	"fmt"
+	"time"
 
-	"github.com/adefilippi/go-demo-api/service/utils"
+	"github.com/google/uuid"
+	"gorm.io/datatypes"
+	"gorm.io/gorm"
+
+	"github.com/syneido/go-api-core/service/utils"
 )
 
 func init() {
+    fmt.Println("entity.MediaObject")
 	RegisterType("entity.MediaObject", func() interface{} {
 		return &MediaObject{}
 	})

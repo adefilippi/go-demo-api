@@ -1,9 +1,10 @@
 package repository
 
 import (
-	"github.com/adefilippi/go-demo-api/database"
-	"github.com/adefilippi/go-demo-api/entity"
 	"fmt"
+
+	"github.com/adefilippi/go-demo-api/entity"
+	"github.com/syneido/go-api-core/database"
 )
 
 func GetAllLocations(parameters map[string]interface{}) ([]entity.Location, error) {

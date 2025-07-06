@@ -2,11 +2,12 @@ package repository
 
 import (
 	"fmt"
+
 	"github.com/google/uuid"
 	"github.com/gosimple/slug"
 
 	"github.com/adefilippi/go-demo-api/entity"
-	"github.com/adefilippi/go-demo-api/service/utils"
+	"github.com/syneido/go-api-core/service/utils"
 )
 
 func GetAllModels(parameters map[string]interface{}) ([]entity.Model, error) {

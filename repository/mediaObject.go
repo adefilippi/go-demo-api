@@ -2,10 +2,11 @@ package repository
 
 import (
 	"fmt"
+
 	"github.com/google/uuid"
 
 	"github.com/adefilippi/go-demo-api/entity"
-	"github.com/adefilippi/go-demo-api/service/utils"
+	"github.com/syneido/go-api-core/service/utils"
 )
 
 func CreateMediaObject(mediaObject entity.MediaObject) (entity.MediaObject, error) {

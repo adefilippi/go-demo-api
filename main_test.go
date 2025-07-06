@@ -1,11 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"testing"
-	"encoding/json"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -13,16 +13,15 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/syneido/go-api-core/service/env"
 	"github.com/syneido/go-demo-api/entity"
 	"github.com/syneido/go-demo-api/fixtures"
 	"github.com/syneido/go-demo-api/repository"
-	"github.com/syneido/go-demo-api/service/env"
 	"github.com/syneido/go-demo-api/service/router"
 
 	"github.com/syneido/go-demo-api/test/utils"
 
 	"fmt"
-	"reflect"
 )
 
 var (

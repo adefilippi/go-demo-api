@@ -6,9 +6,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/adefilippi/go-demo-api/database"
-
 	"github.com/go-testfixtures/testfixtures/v3"
+	"github.com/syneido/go-api-core/database"
 )
 
 func rootDir() string {

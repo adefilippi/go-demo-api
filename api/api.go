@@ -2,12 +2,13 @@ package api
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgconn"
 	"gorm.io/gorm"
-	"net/http"
 
-	"github.com/adefilippi/go-demo-api/service/request"
+	"github.com/syneido/go-api-core/service/request"
 )
 
 type ApiError struct {
